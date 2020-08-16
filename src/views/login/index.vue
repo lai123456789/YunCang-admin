@@ -42,7 +42,7 @@
               <el-input v-model="form.imgCode" placeholder="图形验证码" prefix-icon="el-icon-key"></el-input>
             </el-col>
             <el-col :span="6" :offset="1">
-              <img class="code" src="" alt=""> <!--./img/login_code.png-->
+              <img class="code" src="./img/login_code.png" alt="">
             </el-col>
           </el-row>
         </el-form-item>
@@ -96,7 +96,7 @@
               <el-input v-model="registerform.imgCode" placeholder="图形验证码" prefix-icon="el-icon-key"></el-input>
             </el-col>
             <el-col :span="6" :offset="1">
-<!--              <img class="code" src="./img/login_code.png" alt="">-->
+             <img class="code" src="./img/login_code.png" alt="">
             </el-col>
           </el-row>
         </el-form-item>
@@ -212,10 +212,6 @@ export default {
         username: 'admin',
         password: '111111'
       },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
       loading: false,
       passwordType: 'password',
       redirect: undefined
@@ -305,7 +301,7 @@ $cursor: #fff;
   background-color: #0A2F26;
 
   .login-box{
-    width: 400px;
+    width: 472px;
     max-width: 100%;
     padding: 35px;
     background-color: #fff;

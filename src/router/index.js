@@ -159,6 +159,57 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/fictitious',
+    component: Layout,
+    redirect: '/fictitious/table',
+    name: 'fictitious',
+    meta: { title: '虚拟仓', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'createOrder',
+        name: 'createOrder',
+        component: () => import('../views/fictitious/createOrder/createOrder.vue'),
+        meta: { title: '待创建订单', icon: 'table' }
+      },
+      {
+        path: 'Pending',
+        name: 'Pending',
+        component: () => import('../views/fictitious/Pending/pengding.vue'),
+        meta: { title: '待处理订单', icon: 'table' }
+      },
+      {
+        path: 'complete',
+        name: 'complete',
+        component: () => import('../views/fictitious/complete/complete.vue'),
+        meta: { title: '已完成订单', icon: 'table' }
+      },
+    ]
+  },
+  {
+    path: '/returning',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'returning',
+        component: () => import('../views/return/return.vue'),
+        meta: { title: '退件仓', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/invite',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'invite',
+        component: () => import('../views/invite/invite.vue'),
+        meta: { title: '邀请返现', icon: 'form' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
