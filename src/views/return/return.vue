@@ -12,12 +12,12 @@
             </el-form-item>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
-              <el-table border style="width: 100%;">
-                <el-table-column  label="退件到仓时间"></el-table-column>
-                <el-table-column  label="平台和店铺"></el-table-column>
-                <el-table-column  label="订单详情"></el-table-column>
-                <el-table-column  label="原运单号"></el-table-column>
-                <el-table-column  label="收费"></el-table-column>
+              <el-table border style="width: 100%;" :data="tableForm">
+                <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                <el-table-column  prop="money"  label="收费"></el-table-column>
                 <el-table-column  label="存储位置"></el-table-column>
                 <el-table-column  label="操作"></el-table-column>
               </el-table>    
@@ -34,15 +34,15 @@
                     </el-form-item>
                     <!-- 下面卡片 -->
                     <el-card class="box-card box-card1">
-                    <el-table border style="width: 100%;">
-                        <el-table-column  label="平台和店铺"></el-table-column>
-                        <el-table-column  label="订单详情"></el-table-column>
-                        <el-table-column  label="原运单号"></el-table-column>
-                        <el-table-column  label="新运单号"></el-table-column>
-                        <el-table-column  label="收费"></el-table-column>
-                        <el-table-column  label="存储位置"></el-table-column>
-                        <el-table-column  label="状态"></el-table-column>
-                        <el-table-column  label="操作"></el-table-column>
+                    <el-table border style="width: 100%;" :data="tableForm">
+                        <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                        <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                        <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                        <el-table-column  prop="New_Num"  label="新运单号"></el-table-column>
+                        <el-table-column  prop="money"  label="收费"></el-table-column>
+                        <el-table-column   label="存储位置"></el-table-column>
+                        <el-table-column   label="状态"></el-table-column>
+                        <el-table-column   label="操作"></el-table-column>
                     </el-table>    
                     </el-card>
             </el-form>
@@ -57,14 +57,14 @@
                 </el-form-item>
                 <!-- 下面卡片 -->
                 <el-card class="box-card  box-card1">
-                <el-table border style="width: 100%;">
-                    <el-table-column  label="退件到仓时间"></el-table-column>
-                    <el-table-column  label="平台和店铺"></el-table-column>
-                    <el-table-column  label="订单详情"></el-table-column>
-                    <el-table-column  label="原运单号"></el-table-column>
-                    <el-table-column  label="新运单号"></el-table-column>
-                    <el-table-column  label="收费"></el-table-column>
-                    <el-table-column  label="发货时间"></el-table-column>
+                <el-table border style="width: 100%;" :data="tableForm">
+                    <el-table-column prop="end_time"  label="退件到仓时间"></el-table-column>
+                    <el-table-column prop="shop_name"  label="平台和店铺"></el-table-column>
+                    <el-table-column prop="order_text"  label="订单详情"></el-table-column>
+                    <el-table-column prop="Waybill_Num" label="原运单号"></el-table-column>
+                    <el-table-column prop="New_Num"  label="新运单号"></el-table-column>
+                    <el-table-column prop="money"  label="收费"></el-table-column>
+                    <el-table-column prop="send_time"  label="发货时间"></el-table-column>
                 </el-table>    
                 </el-card>
           </el-form>
@@ -79,13 +79,13 @@
                     </el-form-item>
                     <!-- 下面卡片 -->
                     <el-card class="box-card box-card1">
-                    <el-table border style="width: 100%;">
-                        <el-table-column  label="退件到仓时间"></el-table-column>
-                        <el-table-column  label="平台和店铺"></el-table-column>
-                        <el-table-column  label="订单详情"></el-table-column>
-                        <el-table-column  label="原运单号"></el-table-column>
-                        <el-table-column  label="收费"></el-table-column>
-                        <el-table-column  label="销毁时间"></el-table-column>
+                    <el-table border style="width: 100%;" :data="tableForm">
+                        <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                        <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                        <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                        <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                        <el-table-column  prop="money"  label="收费"></el-table-column>
+                        <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
                     </el-table>    
                     </el-card>
             </el-form>
@@ -103,6 +103,58 @@ export default {
       formInline: {
         rid:"",
       },
+      tableForm:[
+        {
+          end_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          Waybill_Num:'20200816001',
+          New_Num:'20200817005',
+          money:'20',
+          ending_time:'2020/08/17',
+          send_time:'2020/08/16',
+        },
+        {
+          end_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          Waybill_Num:'20200816001',
+          New_Num:'20200817005',
+          money:'20',
+          ending_time:'2020/08/17',
+          send_time:'2020/08/16',
+        },
+        {
+          end_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          Waybill_Num:'20200816001',
+          New_Num:'20200817005',
+          money:'20',
+          ending_time:'2020/08/17',
+          send_time:'2020/08/16',
+        },
+        {
+          end_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          Waybill_Num:'20200816001',
+          New_Num:'20200817005',
+          money:'20',
+          ending_time:'2020/08/17',
+          send_time:'2020/08/16',
+        },
+        {
+          end_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          Waybill_Num:'20200816001',
+          New_Num:'20200817005',
+          money:'20',
+          ending_time:'2020/08/17',
+          send_time:'2020/08/16',
+        },
+      ]
     };
   },
   methods: {
@@ -124,6 +176,7 @@ export default {
     }
   }
 }
+.el-table .cell,
 .el-table th>.cell{
     text-align: center;
 }

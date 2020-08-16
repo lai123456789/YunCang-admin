@@ -31,18 +31,18 @@
     </el-card>
     <!-- 下面卡片 -->
     <el-card class="box-card">
-      <el-table border style="width: 100%;">
-        <el-table-column label="虚拟仓订单创建时间"></el-table-column>
-        <el-table-column label="处理时间"></el-table-column>
-        <el-table-column label="平台和店铺"></el-table-column>
-        <el-table-column label="订单星期"></el-table-column>
-        <el-table-column label="订单号"></el-table-column>
-        <el-table-column label="运单号"></el-table-column>
-        <el-table-column label="国内物流单号"></el-table-column>
-        <el-table-column label="面单"></el-table-column>
-        <el-table-column label="收费"></el-table-column>
-        <el-table-column label="状态"></el-table-column>
-        <el-table-column label="是否代打单"></el-table-column>
+      <el-table border style="width: 100%;" :data="tableForm">
+        <el-table-column prop="create_time" label="虚拟仓订单创建时间"></el-table-column>
+        <el-table-column prop="pending_time" label="处理时间"></el-table-column>
+        <el-table-column prop="shop_name" label="平台和店铺"></el-table-column>
+        <el-table-column prop="order_text" label="订单详情"></el-table-column>
+        <el-table-column prop="order_Num" label="订单号"></el-table-column>
+        <el-table-column prop="Waybill_Num" label="运单号"></el-table-column>
+        <el-table-column prop="email_Num" label="国内物流单号"></el-table-column>
+        <el-table-column prop="sheet" label="面单"></el-table-column>
+        <el-table-column prop="money" label="收费"></el-table-column>
+        <el-table-column prop="state" label="状态"></el-table-column>
+        <el-table-column prop="intimidate" label="是否代打单"></el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -59,6 +59,60 @@ export default {
         emailID:"",
         rid:""
       },
+      tableForm:[
+        {
+          create_time:'2020/08/16',
+          pending_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          order_Num:'001',
+          Waybill_Num:'20200816001',
+          email_Num:'20200816000001',
+          sheet:'面单',
+          money:'$24',
+          state:'已完成',
+          intimidate:'是'
+        },
+        {
+          create_time:'2020/08/16',
+          pending_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          order_Num:'001',
+          Waybill_Num:'20200816001',
+          email_Num:'20200816000001',
+          sheet:'面单',
+          money:'$24',
+          state:'已完成',
+          intimidate:'是'
+        },
+        {
+          create_time:'2020/08/16',
+          pending_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          order_Num:'001',
+          Waybill_Num:'20200816001',
+          email_Num:'20200816000001',
+          sheet:'面单',
+          money:'$24',
+          state:'已完成',
+          intimidate:'是'
+        },
+        {
+          create_time:'2020/08/16',
+          pending_time:'2020/08/16',
+          shop_name:'云仓一号',
+          order_text:'XXXX',
+          order_Num:'001',
+          Waybill_Num:'20200816001',
+          email_Num:'20200816000001',
+          sheet:'面单',
+          money:'$24',
+          state:'已完成',
+          intimidate:'是'
+        },
+      ]
     }
   },
 };
@@ -73,7 +127,8 @@ export default {
     
   }
 }
-.el-table th > .cell {
-  text-align: center;
+.el-table .cell,
+.el-table th>.cell{
+    text-align: center;
 }
 </style>
