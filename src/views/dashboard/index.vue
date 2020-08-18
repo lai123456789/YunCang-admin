@@ -54,48 +54,98 @@
               </div>
             </el-col>
           </el-row>
-
         </div>
-        <el-row type="flex" class="row-bg" justify="space-between">
-          <el-col :span="8">
-            <div class="grid-content bg-purple">
-              <div>上午好，某某某</div>
-              <div>欢迎登入商家客户端</div>
-              <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="grid-content bg-purple-light">
-              <div>钱包余额</div>
-              <div class="textDiv">
-                <div>Y3456.09</div>
-                <div>我要充值</div>
-                <div>充值历史</div>
+        <div class="two row-bg">
+          <div><i class="el-icon-time" />营销统计</div>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="8">
+              <div class="grid-content bg-purple yingxiao">
+                <div class="yingxiao1">
+                  <img src="../../assets/images/mainBottom.png" alt="">
+                </div>
+                <div class="yingxiao2">
+                  <div>8970</div>
+                  <div>今日销售额</div>
+                </div>
+                <div class="yingxiao3">
+                  <div>昨日：8790</div>
+                  <div>前日：8790</div>
+                </div>
               </div>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="grid-content bg-purple-light">
-              <div>我的账单</div>
-              <div class="textDiv">
-                <div>Y3456.09</div>
-                <div>历史账单</div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple yingxiao">
+                <div class="yingxiao1">
+                  <img src="../../assets/images/mainBottom.png" alt="">
+                </div>
+                <div class="yingxiao2">
+                  <div>8970</div>
+                  <div>今日销售额</div>
+                </div>
+                <div class="yingxiao3">
+                  <div>昨日：8790</div>
+                  <div>前日：8790</div>
+                </div>
               </div>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="grid-content bg-purple-light">
-              <div>我的账单</div>
-              <div class="textDiv">
-                <div>Y3456.09</div>
-                <div>历史账单</div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple yingxiao">
+                <div class="yingxiao1">
+                  <img src="../../assets/images/mainBottom.png" alt="">
+                </div>
+                <div class="yingxiao2">
+                  <div>8970</div>
+                  <div>今日销售额</div>
+                </div>
+                <div class="yingxiao3">
+                  <div>昨日：8790</div>
+                  <div>前日：8790</div>
+                </div>
               </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-footer>Footer</el-footer>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple yingxiao">
+                <div class="yingxiao1">
+                  <img src="../../assets/images/mainBottom.png" alt="">
+                </div>
+                <div class="yingxiao2">
+                  <div>8970</div>
+                  <div>今日销售额</div>
+                </div>
+                <div class="yingxiao3">
+                  <div>昨日：8790</div>
+                  <div>前日：8790</div>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="two row-bg">
+          <el-row type="flex" justify="space-between">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <div id="myChartLeft" :style="{width: '500px', height: '300px'}"></div>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <div id="myChart" :style="{width: '500px', height: '300px'}"></div>
+              </div>
+            </el-col>
+
+          </el-row>
+        </div>
+        <el-footer>
+
+        </el-footer>
       </el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px">
+        <div class="grid-content bg-purple">
+          <div>上午好，某某某</div>
+          <div>欢迎登入商家客户端</div>
+          <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+        </div>
+      </el-aside>
 
     </el-container>
 
@@ -105,6 +155,15 @@
 </template>
 
 <script>
+    // 引入基本模板
+    let echarts = require('echarts/lib/echarts')
+    // 引入柱状图组件
+    require('echarts/lib/chart/bar');
+    require("echarts/lib/chart/line");
+    require("echarts/lib/chart/pie");
+    // 引入提示框和title组件
+    require('echarts/lib/component/tooltip')
+    require('echarts/lib/component/title')
 import { mapGetters } from 'vuex'
 
 export default {
@@ -113,16 +172,62 @@ export default {
     ...mapGetters([
       'name'
     ])
-  }
+  },
+    data() {
+        return {
+            msg: 'Welcome to Your Vue.js App'
+        }
+    },
+    mounted() {
+        this.drawLine();
+    },
+    methods: {
+        drawLine() {
+            // 基于准备好的dom，初始化echarts实例
+            let myChartLeft = echarts.init(document.getElementById('myChartLeft'))
+            let myChart = echarts.init(document.getElementById('myChart'))
+            // 绘制图表
+            myChart.setOption({
+                title: { text: '平台订单数对比' },
+                tooltip: {},
+                xAxis: {
+                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            });
+            myChartLeft.setOption({
+                title: { text: '近期订单数' },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    smooth: true
+                }]
+            });
+
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
   .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
+    /*background-color: #B3C0D1;*/
+    /*color: #333;*/
+    /*text-align: center;*/
+    /*line-height: 60px;*/
   }
 
   .el-aside {
@@ -178,6 +283,35 @@ export default {
       }
   }
   }
+  .yingxiao{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+    .yingxiao1{
+      img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+    .yingxiao2{
+      margin-left: -30px;
+      div:nth-child(1){
+        font-size: 22px;
+        font-weight: bold;
+      }
+      div:nth-child(2){
+        color: #999999;
+        font-size: 14px;
+      }
+    }
+    .yingxiao3{
+      div{
+        font-size: 14px;
+        color: #666666;
+      }
+    }
+  }
   .row-bg {
     padding: 10px 0;
     margin: 20px 20px 0px 20px;
@@ -189,6 +323,9 @@ export default {
     padding-left: 20px;
     div{
       line-height: 30px;
+    }
+    .el-row{
+      flex-flow: row wrap;
     }
   }
 </style>
