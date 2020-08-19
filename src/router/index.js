@@ -78,14 +78,14 @@ export const constantRoutes = [
   },
 
   {
-    path: '/form',
+    path: '/orderPush',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'OrderPush',
+        component: () => import('@/views/orderPush/index'),
+        meta: { title: '订单推送', icon: 'link' }
       }
     ]
   },

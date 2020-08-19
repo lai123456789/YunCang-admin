@@ -124,12 +124,12 @@
           <el-row type="flex" justify="space-between">
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <div id="myChartLeft" :style="{width: '500px', height: '300px'}"></div>
+                <div id="myChartLeft" :style="{width: '400px', height: '300px'}"></div>
               </div>
             </el-col>
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <div id="myChart" :style="{width: '500px', height: '300px'}"></div>
+                <div id="myChart" :style="{width: '400px', height: '300px'}"></div>
               </div>
             </el-col>
 
@@ -261,8 +261,11 @@ export default {
       background: #F7F8FA;
       padding: 20px 20px 25px 0;
       .bg-index{
+        border-radius: 10px;
         height: 400px;
         background: #ffffff;
+        text-align: left;
+        padding: 20px;
         .bg-title{
           span{
             font-size: 20px;
@@ -276,7 +279,10 @@ export default {
       background: #F7F8FA;
       padding: 0 20px 30px 0;
       .bg-index{
-        height: 400px;
+        text-align: left;
+        padding: 20px;
+        height:330px;
+        border-radius: 10px;
         background: #ffffff;
         .bg-title{
           span{
