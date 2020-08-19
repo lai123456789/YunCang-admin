@@ -139,12 +139,34 @@
 
         </el-footer>
       </el-container>
-      <el-aside width="200px">
-        <div class="grid-content bg-purple">
-          <div>上午好，某某某</div>
-          <div>欢迎登入商家客户端</div>
-          <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+      <el-aside width="400px">
+        <div class="bg-right-1">
+          <div class="bg-index">
+            <div class="bg-title">
+              <i class="el-icon-time" />
+              <span>最新公告</span>
+            </div>
+            <div>最新公告的标题</div>
+            <div>最新公告的标题</div>
+            <div>最新公告的标题</div>
+            <div>最新公告的标题</div>
+            <div>最新公告的标题</div>
+          </div>
+
         </div>
+        <div class="bg-right-2">
+          <div class="bg-index">
+            <div class="bg-title">
+              <i class="el-icon-time" />
+              <span>使用教程&常见问题</span>
+            </div>
+            <div>虚拟仓教程</div>
+            <div>海外仓教程</div>
+            <div>常见问题</div>
+          </div>
+
+        </div>
+
       </el-aside>
 
     </el-container>
@@ -231,10 +253,39 @@ export default {
   }
 
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #F7F8FA;
     color: #333;
     text-align: center;
-    line-height: 200px;
+    .bg-right-1{
+      width: 100%;
+      background: #F7F8FA;
+      padding: 20px 20px 25px 0;
+      .bg-index{
+        height: 400px;
+        background: #ffffff;
+        .bg-title{
+          span{
+            font-size: 20px;
+          }
+        }
+      }
+
+    }
+    .bg-right-2{
+      width: 100%;
+      background: #F7F8FA;
+      padding: 0 20px 30px 0;
+      .bg-index{
+        height: 400px;
+        background: #ffffff;
+        .bg-title{
+          span{
+            font-size: 20px;
+          }
+        }
+      }
+
+    }
   }
 
   body > .el-container {
@@ -326,6 +377,11 @@ export default {
     }
     .el-row{
       flex-flow: row wrap;
+      .el-col{
+        .grid-content{
+          text-align: center;
+        }
+      }
     }
   }
 </style>
