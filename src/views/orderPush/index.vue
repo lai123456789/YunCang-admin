@@ -1,49 +1,140 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
+    <div class="top">
+      <el-row >
+        <el-col :span="3">
+          <div class="grid-content  topButton">
+            <el-button type="warning">添加shopee授权</el-button>
+          </div>
+          <div class="grid-content  topButton">
+            <el-button type="warning">添加Lazada授权</el-button>
+          </div>
+          <div class="grid-content  topButton">
+            <el-button type="danger" class="jiebang"> 解绑店铺 </el-button>
+          </div>
         </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
+        <el-col :span="21">
+          <div class="grid-content topTable">
+            <table>
+              <tr>
+                <td>shopee店铺</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Lazada店铺</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
         </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
+      </el-row>
+
+    </div>
+    <div class="center">
+      <el-card class="box-card">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            <el-input
+              placeholder="请输入订单号"
+              v-model="formInline.rid"
+              style="width:200px;"
+              suffix-icon="el-icon-search"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="warning">订单号搜索</el-button>
+          </el-form-item>
+          <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            <el-input
+              placeholder="请输入运单号"
+              v-model="formInline.rid"
+              style="width:200px;"
+              suffix-icon="el-icon-search"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="warning">运单号搜索</el-button>
+          </el-form-item>
+          <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            <el-input
+              placeholder="请输入店铺名"
+              v-model="formInline.rid"
+              style="width:200px;"
+              suffix-icon="el-icon-search"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="warning">店铺名搜索</el-button>
+          </el-form-item>
+        </el-form>
+        <el-tabs v-model="activeName">
+          <el-tab-pane label="当前退件仓库存" name="first">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                  <el-table-column  prop="money"  label="收费"></el-table-column>
+                  <el-table-column  label="存储位置"></el-table-column>
+                  <el-table-column  label="操作"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="待仓库处理订单" name="second">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                  <el-table-column  prop="New_Num"  label="新运单号"></el-table-column>
+                  <el-table-column  prop="money"  label="收费"></el-table-column>
+                  <el-table-column   label="存储位置"></el-table-column>
+                  <el-table-column   label="状态"></el-table-column>
+                  <el-table-column   label="操作"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="已发货" name="third">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card  box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column prop="end_time"  label="退件到仓时间"></el-table-column>
+                  <el-table-column prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column prop="Waybill_Num" label="原运单号"></el-table-column>
+                  <el-table-column prop="New_Num"  label="新运单号"></el-table-column>
+                  <el-table-column prop="money"  label="收费"></el-table-column>
+                  <el-table-column prop="send_time"  label="发货时间"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="已销毁" name="fourth">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                  <el-table-column  prop="money"  label="收费"></el-table-column>
+                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+        </el-tabs>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -51,16 +142,63 @@
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
+        activeName: "first",
+        // 上面行内表单绑定的对象
+        formInline: {
+            rid:"",
+        },
+        tableForm:[
+            {
+                end_time:'2020/08/16',
+                shop_name:'云仓一号',
+                order_text:'XXXX',
+                Waybill_Num:'20200816001',
+                New_Num:'20200817005',
+                money:'20',
+                ending_time:'2020/08/17',
+                send_time:'2020/08/16',
+            },
+            {
+                end_time:'2020/08/16',
+                shop_name:'云仓一号',
+                order_text:'XXXX',
+                Waybill_Num:'20200816001',
+                New_Num:'20200817005',
+                money:'20',
+                ending_time:'2020/08/17',
+                send_time:'2020/08/16',
+            },
+            {
+                end_time:'2020/08/16',
+                shop_name:'云仓一号',
+                order_text:'XXXX',
+                Waybill_Num:'20200816001',
+                New_Num:'20200817005',
+                money:'20',
+                ending_time:'2020/08/17',
+                send_time:'2020/08/16',
+            },
+            {
+                end_time:'2020/08/16',
+                shop_name:'云仓一号',
+                order_text:'XXXX',
+                Waybill_Num:'20200816001',
+                New_Num:'20200817005',
+                money:'20',
+                ending_time:'2020/08/17',
+                send_time:'2020/08/16',
+            },
+            {
+                end_time:'2020/08/16',
+                shop_name:'云仓一号',
+                order_text:'XXXX',
+                Waybill_Num:'20200816001',
+                New_Num:'20200817005',
+                money:'20',
+                ending_time:'2020/08/17',
+                send_time:'2020/08/16',
+            },
+        ]
     }
   },
   methods: {
@@ -77,9 +215,44 @@ export default {
 }
 </script>
 
-<style scoped>
-.line{
-  text-align: center;
-}
+<style lang="scss">
+  .topButton{
+    button:nth-child(1){
+      margin-bottom: 10px;
+    }
+    .jiebang{
+      width: 144px;
+    }
+  }
+  .topTable {
+    table {
+      width: 100%;
+      border-collapse:collapse;
+      tr{
+        td:nth-child(1){
+          width: 20%;
+        }
+        td{
+          height: 44px;
+          text-align: center;
+          border: 1px solid #999999;
+        }
+      }
+    }
+
+  }
+  .el-tabs{
+    .el-tabs__header{
+      .el-tabs__nav-wrap{
+        .is-active{
+          color:#E6A23C !important;
+        }
+        .el-tabs__active-bar{
+          background-color:#E6A23C !important;
+        }
+      }
+    }
+  }
+
 </style>
 
