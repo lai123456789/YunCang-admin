@@ -240,17 +240,17 @@ export default {
 .box{
   .invite{
   margin: 10px 10px 0;
-  
+
   .box-card{
     margin: 20px;
-    
+
     .main{
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 5px;
 
       p{
-        color: #E6A23C;
+        /*color: #E6A23C;*/
       }
     }
   }

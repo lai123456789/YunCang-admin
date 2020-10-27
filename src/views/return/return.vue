@@ -20,7 +20,7 @@
                 <el-table-column  prop="money"  label="收费"></el-table-column>
                 <el-table-column  label="存储位置"></el-table-column>
                 <el-table-column  label="操作"></el-table-column>
-              </el-table>    
+              </el-table>
             </el-card>
           </el-form>
         </el-tab-pane>
@@ -43,7 +43,7 @@
                         <el-table-column   label="存储位置"></el-table-column>
                         <el-table-column   label="状态"></el-table-column>
                         <el-table-column   label="操作"></el-table-column>
-                    </el-table>    
+                    </el-table>
                     </el-card>
             </el-form>
         </el-tab-pane>
@@ -65,7 +65,7 @@
                     <el-table-column prop="New_Num"  label="新运单号"></el-table-column>
                     <el-table-column prop="money"  label="收费"></el-table-column>
                     <el-table-column prop="send_time"  label="发货时间"></el-table-column>
-                </el-table>    
+                </el-table>
                 </el-card>
           </el-form>
         </el-tab-pane>
@@ -86,7 +86,7 @@
                         <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
                         <el-table-column  prop="money"  label="收费"></el-table-column>
                         <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
-                    </el-table>    
+                    </el-table>
                     </el-card>
             </el-form>
         </el-tab-pane>
@@ -159,6 +159,8 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
+        console.log(tab)
+        console.log(event)
       // console.log(tab, event);
     },
   },

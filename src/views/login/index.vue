@@ -17,8 +17,6 @@
         <el-form-item v-if="!loginType" prop="username">
           <el-input v-model="form.username" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
-
-
         <!-- 电话验证码输入框 -->
         <el-form-item v-if="loginType" prop="rcode">
           <el-row>

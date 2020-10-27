@@ -245,10 +245,10 @@ export default {
     .el-tabs__header{
       .el-tabs__nav-wrap{
         .is-active{
-          color:#E6A23C !important;
+          /*color:#E6A23C !important;*/
         }
         .el-tabs__active-bar{
-          background-color:#E6A23C !important;
+          /*background-color:#E6A23C !important;*/
         }
       }
     }

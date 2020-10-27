@@ -5,27 +5,41 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+<!--      <el-dropdown class="avatar-container">-->
+<!--        <div class="avatar-wrapper">-->
+<!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+<!--          <i class="el-icon-caret-bottom" />-->
+<!--        </div>-->
+<!--        <el-dropdown-menu slot="dropdown" class="user-dropdown">-->
+<!--          <router-link to="/">-->
+<!--            <el-dropdown-item>-->
+<!--              Home-->
+<!--            </el-dropdown-item>-->
+<!--          </router-link>-->
+<!--          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">-->
+<!--            <el-dropdown-item>Github</el-dropdown-item>-->
+<!--          </a>-->
+<!--          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">-->
+<!--            <el-dropdown-item>Docs</el-dropdown-item>-->
+<!--          </a>-->
+<!--          <el-dropdown-item divided @click.native="logout">-->
+<!--            <span style="display:block;">Log Out</span>-->
+<!--          </el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </el-dropdown>-->
+
+      <el-dropdown  class="avatar-container">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-user-solid" @click.native="user">个人中心</el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
+
       </el-dropdown>
     </div>
   </div>
@@ -49,11 +63,15 @@ export default {
   },
   methods: {
     toggleSideBar() {
+        console.log("发违法违规为")
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    user(){
+        this.$router.push(`/personCenter/index`)
     }
   }
 }
@@ -117,7 +135,8 @@ export default {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
-
+        display: flex;
+        align-items: center;
         .user-avatar {
           cursor: pointer;
           width: 40px;

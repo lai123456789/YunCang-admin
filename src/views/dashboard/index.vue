@@ -132,7 +132,18 @@
                 <div id="myChart" :style="{width: '400px', height: '300px'}"></div>
               </div>
             </el-col>
-
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <div id="myChartBottomLeft" :style="{width: '400px', height: '300px'}"></div>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <div id="myChartBottomRight" :style="{width: '400px', height: '300px'}"></div>
+              </div>
+            </el-col>
           </el-row>
         </div>
         <el-footer>
@@ -187,7 +198,7 @@
     require('echarts/lib/component/tooltip')
     require('echarts/lib/component/title')
 import { mapGetters } from 'vuex'
-
+    import { ceshi } from '../../api/LLKapi'
 export default {
   name: 'Dashboard',
   computed: {
@@ -202,26 +213,26 @@ export default {
     },
     mounted() {
         this.drawLine();
+        this.getList()
     },
     methods: {
+      getList(){
+          let par = {
+              id:1
+          }
+          ceshi(par).then(response => {  //调用接口
+            console.log(response)
+          }).catch(error => {
+             console.log(error)
+          })
+      },
         drawLine() {
             // 基于准备好的dom，初始化echarts实例
             let myChartLeft = echarts.init(document.getElementById('myChartLeft'))
             let myChart = echarts.init(document.getElementById('myChart'))
+            let myChartBottomLeft = echarts.init(document.getElementById('myChartBottomLeft'))
+            let myChartBottomRight = echarts.init(document.getElementById('myChartBottomRight'))
             // 绘制图表
-            myChart.setOption({
-                title: { text: '平台订单数对比' },
-                tooltip: {},
-                xAxis: {
-                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-            });
             myChartLeft.setOption({
                 title: { text: '近期订单数' },
                 tooltip: {},
@@ -238,6 +249,51 @@ export default {
                     smooth: true
                 }]
             });
+            myChart.setOption({
+                title: { text: '平台订单数对比' },
+                tooltip: {},
+                xAxis: {
+                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            });
+
+            myChartBottomLeft.setOption({
+                title: { text: '近期销售额' },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    smooth: true
+                }]
+            });
+            myChartBottomRight.setOption({
+                title: { text: '平台销售额对比' },
+                tooltip: {},
+                xAxis: {
+                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            });
+
+
 
         }
     }

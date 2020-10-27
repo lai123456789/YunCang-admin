@@ -2,15 +2,14 @@
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
+<!--      active-text-color="#EAA23C" 处理左侧导航栏自定义背景颜色 -->
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         background-color="white"
         text-color="black"
-        active-text-color="#EAA23C"
         :unique-opened="false"
         :collapse-transition="false"
-
         mode="vertical"
       >
         <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />

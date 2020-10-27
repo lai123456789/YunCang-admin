@@ -117,7 +117,18 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/personCenter',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'personCenter',
+        component: () => import('@/views/personCenter/index'),
+        // meta: { title: '个人中心', icon: 'form' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
