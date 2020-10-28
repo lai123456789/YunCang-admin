@@ -31,31 +31,6 @@
           </el-col>
         </el-row>
         <div class="two row-bg">
-          <div><i class="el-icon-time" />待办事项提醒</div>
-          <el-row type="flex"  justify="space-around">
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <div>海外仓待拣货订单：8</div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple-light">
-                <div>中国仓待接收订单：8</div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple-light">
-                <div>虚拟仓待处理订单：8</div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple-light">
-                <div>退件仓待处理订单：8</div>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="two row-bg">
           <div><i class="el-icon-time" />营销统计</div>
           <el-row type="flex" justify="space-between">
             <el-col :span="8">
