@@ -12,7 +12,7 @@ module.exports = {
   extends: ['plugin:vue/recommended', 'eslint:recommended'],
 
   // add your custom rules here
-  //it is base on https://github.com/vuejs/eslint-config-vue
+  //it is base on https://github.com/vuejs/config-vue
   rules: {
     "vue/max-attributes-per-line": [2, {
       "singleline": 10,
@@ -179,9 +179,9 @@ module.exports = {
       'words': true,
       'nonwords': false
     }],
-    'spaced-comment': [2, 'always', {
-      'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
-    }],
+    // 'spaced-comment': [2, 'always', {
+    //   'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
+    // }],
     'template-curly-spacing': [2, 'never'],
     'use-isnan': 2,
     'valid-typeof': 2,
