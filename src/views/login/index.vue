@@ -62,7 +62,7 @@
       <!-- 注册表单 -->
       <el-form v-if="!register" ref="regForm" :model="registerform"  :rules="rules">
         <!-- 用户名输入框 -->
-        <el-form-item  prop="username">
+        <el-form-item  prop="userName">
           <el-input v-model="registerform.username" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
@@ -78,12 +78,12 @@
 
 
         <!-- 密码输入框 -->
-        <el-form-item  prop="password">
+        <el-form-item  prop="passWord">
           <el-input v-model="registerform.password" placeholder="请输入密码" show-password prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
         <!-- 密码输入框 -->
-        <el-form-item  prop="password">
+        <el-form-item  prop="passWord">
           <el-input v-model="registerform.Repeatpassword" placeholder="请再次输入密码" show-password prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
@@ -207,8 +207,8 @@ export default {
         },
 
       loginForm: {
-        username: 'admin',
-        password: '111111'
+          username:'admin',
+          password:'123456'
       },
       loading: false,
       passwordType: 'password',

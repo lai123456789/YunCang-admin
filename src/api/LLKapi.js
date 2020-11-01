@@ -9,10 +9,18 @@ import request from '@/utils/request'
 // }
 // export {ceshi}
 
-export function ceshi(data) {
+// export function ceshi(data) {
+//   return request({
+//     url: '/ceshi/api',
+//     method: 'post',
+//     data
+//   })
+// }
+
+export function payMoney(data) {  //支付宝充值
   return request({
-    url: '/ceshi/api',
-    method: 'post',
+    url: '/tlRechargeBill/rechargePay',
+    method: 'get',
     data
   })
 }

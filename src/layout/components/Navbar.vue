@@ -30,6 +30,7 @@
 
       <el-dropdown  class="avatar-container">
         <div class="avatar-wrapper">
+          <span>{{getusername}}</span>
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
@@ -56,6 +57,9 @@ export default {
     Hamburger
   },
   computed: {
+      getusername(){
+        return this.$store.state.user.name
+      },
     ...mapGetters([
       'sidebar',
       'avatar'

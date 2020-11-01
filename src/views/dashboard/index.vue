@@ -11,11 +11,15 @@
             </div>
           </el-col>
           <el-col :span="6">
+            充值金额：
+            <el-input v-model="money" placeholder="充值金额"></el-input>
+          </el-col>
+          <el-col :span="6">
             <div class="grid-content bg-purple-light">
               <div>钱包余额</div>
               <div class="textDiv">
                 <div>Y3456.09</div>
-                <div>我要充值</div>
+                <div @click="addPayMoney()">确定充值</div>
                 <div>充值历史</div>
               </div>
             </div>
@@ -173,7 +177,7 @@
     require('echarts/lib/component/tooltip')
     require('echarts/lib/component/title')
 import { mapGetters } from 'vuex'
-    import { ceshi } from '../../api/LLKapi'
+    import { ceshi,payMoney } from '../../api/LLKapi'
 export default {
   name: 'Dashboard',
   computed: {
@@ -183,6 +187,7 @@ export default {
   },
     data() {
         return {
+            money:"",
             msg: 'Welcome to Your Vue.js App'
         }
     },
@@ -191,15 +196,26 @@ export default {
         this.getList()
     },
     methods: {
+        addPayMoney(){
+            let par = {
+                id:2,
+                payMoney:money
+            }
+            payMoney(par).then(response => {  //支付调用接口
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
       getList(){
-          let par = {
-              id:1
-          }
-          ceshi(par).then(response => {  //调用接口
-            console.log(response)
-          }).catch(error => {
-             console.log(error)
-          })
+          // let par = {
+          //     id:1
+          // }
+          // ceshi(par).then(response => {  //调用接口
+          //   console.log(response)
+          // }).catch(error => {
+          //    console.log(error)
+          // })
       },
         drawLine() {
             // 基于准备好的dom，初始化echarts实例

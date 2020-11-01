@@ -5,7 +5,7 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url 请求地址APi 主域名
+  baseURL:"http://springbok.cn/api", //http://springbok.cn/api  url = base url + request url 请求地址APi 主域名  process.env.VUE_APP_BASE_API
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -46,7 +46,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    if (res.code !== 1) {   //0-失败  1-成功
       Message({
         message: res.message || 'Error',
         type: 'error',
