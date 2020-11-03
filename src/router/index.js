@@ -57,10 +57,19 @@ export const constantRoutes = [
   {
     path: '/orderPush',
     component: Layout,
+    redirect: '/orderPush/index',
+    name: 'orderPush',
+    meta: { title: '推送管理', icon: 'form' },
     children: [
       {
-        path: 'index',
-        name: 'OrderPush',
+        path: 'shouquan',
+        name: 'shouquan',
+        component: () => import('@/views/orderPush/shouquan'),
+        meta: { title: '店铺授权', icon: 'link' }
+      },
+      {
+        path: 'orderPush',
+        name: 'orderPush',
         component: () => import('@/views/orderPush/index'),
         meta: { title: '订单推送', icon: 'link' }
       }
@@ -126,7 +135,7 @@ export const constantRoutes = [
     // ]
     redirect: '/invite/table',
     name: 'invite',
-    meta: { title: '邀请返现', icon: 'form' },
+    meta: { title: '其他', icon: 'form' },
     children: [
       {
         path: 'invite',

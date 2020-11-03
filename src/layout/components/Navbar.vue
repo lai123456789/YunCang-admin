@@ -30,8 +30,10 @@
 
       <el-dropdown  class="avatar-container">
         <div class="avatar-wrapper">
-          <span>{{getusername}}</span>
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+<!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+          <span>用户名：</span>
+          <span style="margin-right: 20px;">{{getusername}}</span>
+          <i class="el-icon-user"></i>
           <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
         <el-dropdown-menu slot="dropdown">

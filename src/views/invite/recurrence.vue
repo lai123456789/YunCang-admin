@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="btn">
-        <el-button type="warning">申请返现</el-button>
+        <el-button type="primary">申请返现</el-button>
       </div>
     </el-card>
     <!-- 下面卡片 -->

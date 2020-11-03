@@ -100,7 +100,7 @@
                         <el-input v-model="form.rcode" placeholder="短信验证码" prefix-icon="el-icon-lock"></el-input>
                       </el-col>
                       <el-col :span="3" :offset="1">
-                        <el-button class="box-btn" type="warning">获取验证码</el-button>
+                        <el-button class="box-btn" type="primary">获取验证码</el-button>
                       </el-col>
                     </el-row>
                   </el-form-item>
@@ -145,7 +145,7 @@
                         <el-input v-model="form.rcode" placeholder="请输入短信验证码" prefix-icon="el-icon-lock"></el-input>
                       </el-col>
                       <el-col :span="3" :offset="1">
-                        <el-button class="box-btn" type="warning">获取验证码</el-button>
+                        <el-button class="box-btn" type="primary">获取验证码</el-button>
                       </el-col>
                     </el-row>
                   </el-form-item>
@@ -190,7 +190,19 @@
               <div>
                 <span>我的余额 </span>
                 <span style="font-weight: bold;font-size: 16px;">$863</span>
-                <span><el-button type="primary" size="small">我要充值</el-button></span>
+                <template v-if="clickInputFlat">
+<!--                  <span>-->
+<!--                    <el-input v-model="payMoneyVal" ></el-input>-->
+<!--                  </span>-->
+<!--                  <el-button>确认</el-button>-->
+                  <el-input placeholder="请输入充值金额" v-model="payMoneyVal">
+                    <template slot="append"><el-button>确认</el-button></template>
+                    <template slot="append"><el-button @click="clickInputFlat = false">取消</el-button></template>
+                  </el-input>
+                </template>
+                <template v-else>
+                  <span><el-button type="primary" size="small" @click="chongzhi()">我要充值</el-button></span>
+                </template>
               </div>
               <div class="table_List">
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -357,6 +369,8 @@
 export default {
   data() {
     return {
+        payMoneyVal:"",
+        clickInputFlat:false,
         inputpassword:'',
         radio:'1',
         showBack:false,
@@ -462,6 +476,12 @@ export default {
     }
   },
   methods: {
+      chongzhi(){
+        this.clickInputFlat = true
+      },
+      sureChongzhi(){
+          let val = this.payMoneyVal
+      },
       sureChangePhone(){
         alert("确认更换")
       },

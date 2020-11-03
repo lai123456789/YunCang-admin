@@ -1,39 +1,11 @@
 <template>
   <div class="app-container">
-    <div class="top">
-      <el-row >
-        <el-col :span="3">
-          <div class="grid-content  topButton">
-            <el-button type="warning">添加shopee授权</el-button>
-          </div>
-          <div class="grid-content  topButton">
-            <el-button type="warning">添加Lazada授权</el-button>
-          </div>
-          <div class="grid-content  topButton">
-            <el-button type="danger" class="jiebang"> 解绑店铺 </el-button>
-          </div>
-        </el-col>
-        <el-col :span="21">
-          <div class="grid-content topTable">
-            <table>
-              <tr>
-                <td>shopee店铺</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Lazada店铺</td>
-                <td></td>
-              </tr>
-            </table>
-          </div>
-        </el-col>
-      </el-row>
-
-    </div>
+    <h2>订单推送</h2>
     <div class="center">
       <el-card class="box-card">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            平台订单号
             <el-input
               placeholder="请输入订单号"
               v-model="formInline.rid"
@@ -41,10 +13,8 @@
               suffix-icon="el-icon-search"
             ></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="warning">订单号搜索</el-button>
-          </el-form-item>
           <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            平台订单号
             <el-input
               placeholder="请输入运单号"
               v-model="formInline.rid"
@@ -52,10 +22,8 @@
               suffix-icon="el-icon-search"
             ></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="warning">运单号搜索</el-button>
-          </el-form-item>
           <el-form-item :inline="true" :model="formInline" class="demo-form-inline">
+            店铺名称
             <el-input
               placeholder="请输入店铺名"
               v-model="formInline.rid"
@@ -64,11 +32,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="warning">店铺名搜索</el-button>
+            <el-button type="primary">搜索</el-button>
+            <el-button >重置</el-button>
           </el-form-item>
         </el-form>
         <el-tabs v-model="activeName">
-          <el-tab-pane label="当前退件仓库存" name="first">
+          <el-tab-pane label="未申请发货" name="first">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card box-card1">
@@ -84,7 +53,7 @@
               </el-card>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="待仓库处理订单" name="second">
+          <el-tab-pane label="待菜鸟仓处理" name="second">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card box-card1">
@@ -101,7 +70,7 @@
               </el-card>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="已发货" name="third">
+          <el-tab-pane label="已完成订单" name="third">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card  box-card1">
@@ -117,7 +86,37 @@
               </el-card>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="已销毁" name="fourth">
+          <el-tab-pane label="全部订单" name="fourth">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                  <el-table-column  prop="money"  label="收费"></el-table-column>
+                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="发货任务队列" name="five">
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+              <!-- 下面卡片 -->
+              <el-card class="box-card box-card1">
+                <el-table border style="width: 100%;" :data="tableForm">
+                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
+                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
+                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
+                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
+                  <el-table-column  prop="money"  label="收费"></el-table-column>
+                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
+                </el-table>
+              </el-card>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="搜索结果" name="six">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card box-card1">
