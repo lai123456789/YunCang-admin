@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-
+import qs from 'qs'
 // create an axios instance
 const service = axios.create({
   baseURL:"http://springbok.cn/api", //http://springbok.cn/api  url = base url + request url 请求地址APi 主域名  process.env.VUE_APP_BASE_API
@@ -21,6 +21,13 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
     }
+
+    if(config.method==='post')
+    {
+      config.data=qs.stringify(config.data);
+    }
+
+
     return config
   },
   error => {

@@ -36,7 +36,7 @@ const actions = {
         userName: username.trim(),
         passWord: password
       }
-      login(qs.stringify(param)).then(response => {
+      login(param).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token_access)
         setToken(data.token_access)

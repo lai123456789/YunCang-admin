@@ -19,8 +19,7 @@ import request from '@/utils/request'
 
 export function payMoney(data) {  //支付宝充值
   return request({
-    url: '/tlRechargeBill/rechargePay',
-    method: 'get',
-    data
+    url: `/tlRechargeBill/rechargePay?id=${data.id}&payMoney=${data.payMoney}`,
+    method: 'get'
   })
 }

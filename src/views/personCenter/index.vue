@@ -191,12 +191,8 @@
                 <span>我的余额 </span>
                 <span style="font-weight: bold;font-size: 16px;">$863</span>
                 <template v-if="clickInputFlat">
-<!--                  <span>-->
-<!--                    <el-input v-model="payMoneyVal" ></el-input>-->
-<!--                  </span>-->
-<!--                  <el-button>确认</el-button>-->
                   <el-input placeholder="请输入充值金额" v-model="payMoneyVal">
-                    <template slot="append"><el-button>确认</el-button></template>
+                    <template slot="append"><el-button @click="surePay">确认</el-button></template>
                     <template slot="append"><el-button @click="clickInputFlat = false">取消</el-button></template>
                   </el-input>
                 </template>
@@ -366,7 +362,8 @@
 </template>
 
 <script>
-export default {
+    import { payMoney } from '../../api/LLKapi'
+    export default {
   data() {
     return {
         payMoneyVal:"",
@@ -479,8 +476,19 @@ export default {
       chongzhi(){
         this.clickInputFlat = true
       },
-      sureChongzhi(){
+      surePay(){
           let val = this.payMoneyVal
+          console.log(val)
+          let payParam = {
+              id:2,
+              payMoney:val
+          }
+          payMoney(payParam).then(response => {  //支付调用接口
+              console.log(response)
+          }).catch(error => {
+              console.log(error)
+          })
+
       },
       sureChangePhone(){
         alert("确认更换")
