@@ -4,11 +4,11 @@
       <h2>申请返现</h2>
       <div class="info">
         <ul class="clearfix">
-          <li>支付宝姓名：张三</li>
-          <li>支付宝账号：15888888888</li>
-          <li>手机号码：15888888888</li>
-          <li>未返现余额：300</li>
-          <li>已返现余额：120</li>
+          <li>支付宝姓名：{{formInline.zfbName}}</li>
+          <li>支付宝账号：{{formInline.zfbAccount}}</li>
+          <li>手机号码：  {{formInline.phone}}</li>
+          <li>未返现余额：{{formInline.commissionAmount}}</li>
+          <li>已返现余额：{{formInline.returnAmount}}</li>
         </ul>
       </div>
       <div class="btn">
@@ -51,14 +51,13 @@
   </div>
 </template>
 <script>
+// import {accountInfo,applyReturnMoney,pageInfo} from '@/api/invite.js'
+import {accountInfo} from '@/api/invite.js'
 export default {
   data() {
     return {
       // 上面行内表单绑定的对象
-      formInline: {
-        emailID: "",
-        rid: ""
-      },
+      formInline: {},
       tableForm: [
         {
           NUm: "20201030001",
@@ -70,6 +69,19 @@ export default {
         },
       ]
     };
+  },
+  created(){
+    this.accountInfo()
+  },
+  methods:{
+    accountInfo(){
+      let params = {
+        userId:2
+      }
+      accountInfo(params).then(res=>{
+        console.log(res)
+      })
+    }
   }
 };
 </script>
