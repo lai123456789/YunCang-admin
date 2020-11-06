@@ -14,8 +14,8 @@
           <el-input v-model="form.phone" placeholder="电话" prefix-icon="el-icon-phone"></el-input>
         </el-form-item>
         <!-- 用户名输入框 -->
-        <el-form-item v-if="!loginType" prop="username">
-          <el-input v-model="form.username" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
+        <el-form-item v-if="!loginType" prop="userName">
+          <el-input v-model="form.userName" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!-- 电话验证码输入框 -->
         <el-form-item v-if="loginType" prop="rcode">
@@ -29,8 +29,8 @@
           </el-row>
         </el-form-item>
         <!-- 密码输入框 -->
-        <el-form-item v-if="!loginType"  prop="password">
-          <el-input v-model="form.password" placeholder="密码" show-password prefix-icon="el-icon-lock" ></el-input>
+        <el-form-item v-if="!loginType"  prop="passWord">
+          <el-input v-model="form.passWord" placeholder="密码" show-passWord prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
         <!-- 图形验证码输入框 -->
@@ -63,7 +63,7 @@
       <el-form v-if="!register" ref="regForm" :model="registerform"  :rules="rules">
         <!-- 用户名输入框 -->
         <el-form-item  prop="userName">
-          <el-input v-model="registerform.username" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="registerform.userName" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
         <!-- 手机号输入框 -->
@@ -72,19 +72,19 @@
         </el-form-item>
 
         <!-- 微信号输入框 -->
-        <el-form-item  prop="wx">
-          <el-input v-model="registerform.wx" placeholder="微信号" prefix-icon="el-icon-chat-dot-round"></el-input>
+        <el-form-item  prop="wxUserId">
+          <el-input v-model="registerform.wxUserId" placeholder="微信号" prefix-icon="el-icon-chat-dot-round"></el-input>
         </el-form-item>
 
 
         <!-- 密码输入框 -->
         <el-form-item  prop="passWord">
-          <el-input v-model="registerform.password" placeholder="请输入密码" show-password prefix-icon="el-icon-lock" ></el-input>
+          <el-input v-model="registerform.passWord" placeholder="请输入密码" show-passWord prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
         <!-- 密码输入框 -->
         <el-form-item  prop="passWord">
-          <el-input v-model="registerform.Repeatpassword" placeholder="请再次输入密码" show-password prefix-icon="el-icon-lock" ></el-input>
+          <el-input v-model="registerform.RepeatpassWord" placeholder="请再次输入密码" show-passWord prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
         <!-- 图形验证码输入框 -->
@@ -118,7 +118,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import { registed } from '../../api/LLKapi'
 export default {
   name: 'Login',
   data() {
@@ -129,9 +129,9 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
+    const validatepassWord = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('The passWord can not be less than 6 digits'))
       } else {
         callback()
       }
@@ -146,25 +146,25 @@ export default {
             // 电话
             phone: "",
             // 用户名
-            username:"",
+            userName:"",
             // 手机验证码
             rcode: "",
             // 密码
-            password:"",
+            passWord:"",
             // 二次密码
-            Repeatpassword:"",
+            RepeatpassWord:"",
             // 图形验证码
             imgCode:"",
         },
         registerform:{
             // 用户名
-            username:"",
+            userName:"",
             // 电话
             phone: "",
-            // wx
-            wx:"",
+            // wxUserId
+            wxUserId:"",
             // 密码
-            password:"",
+            passWord:"",
 
             // 图形验证码
             imgCode:"",
@@ -179,7 +179,7 @@ export default {
             ],
 
             // 用户名规则
-            username: [
+            userName: [
                 { required: true, message: "用户名不能为空", trigger: "blur" }
             ],
 
@@ -188,13 +188,13 @@ export default {
                 { required: true, message: "手机验证码不能为空", trigger: "blur" }
             ],
 
-            // wx规则
-            wx: [
+            // wxUserId规则
+            wxUserId: [
                 { required: true, message: "微信不能为空", trigger: "blur" }
             ],
 
             // 密码规则
-            password: [
+            passWord: [
                 { required: true, message: "密码不能为空", trigger: "blur" }
             ],
 
@@ -208,10 +208,10 @@ export default {
 
       loginForm: {
           username:'admin',
-          password:'123456'
+          passWord:'123456'
       },
       loading: false,
-      passwordType: 'password',
+      passWordType: 'passWord',
       redirect: undefined
     }
   },
@@ -253,8 +253,14 @@ export default {
           // 找到表单对象,调用validate方法
           this.$refs.regForm.validate(v => {
               if(v){
-                  alert('全部通过')
-
+                  // alert('全部通过')
+                  console.log(this.registerform)
+                  let formParam = this.registerform
+                      registed(formParam).then(response => {  //支付调用接口
+                          console.log(response)
+                      }).catch(error => {
+                          console.log(error)
+                      })
               }
           })
       },

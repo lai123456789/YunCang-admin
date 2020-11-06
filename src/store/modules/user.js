@@ -1,7 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-import qs from 'qs'
 const getDefaultState = () => {
   return {
     token: getToken(),
@@ -72,8 +71,11 @@ const actions = {
 
   // user logout
   logout({ commit, state }) {
+    let par = {
+      userNumber : 1234
+    }
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout(par).then(() => {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')

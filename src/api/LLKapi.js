@@ -23,3 +23,11 @@ export function payMoney(data) {  //支付宝充值
     method: 'get'
   })
 }
+
+export function registed(data) {  //注册
+  return request({
+    url: `/tlUser/register`,
+    method: 'post',
+    data
+  })
+}

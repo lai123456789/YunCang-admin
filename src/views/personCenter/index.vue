@@ -256,7 +256,7 @@
           <span slot="label"><i class="el-icon-s-flag"></i> 使用教程</span>
           <div class="row">使用教程</div>
           <div class="all-left userteach">
-            <el-tabs v-model="useTeach" :tab-position="tabPosition">
+            <el-tabs  :tab-position="tabPosition">
 
               <el-tab-pane  name="first">
               <span slot="label"><i class="el-icon-s-flag"></i> 海外仓教程</span>
@@ -287,7 +287,7 @@
           <span slot="label"><i class="el-icon-question"></i> 常见问题</span>
           <div class="row">常见问题</div>
           <div class="all-left userteach">
-            <el-tabs v-model="useTeach" :tab-position="tabPosition">
+            <el-tabs  :tab-position="tabPosition">
 
               <el-tab-pane  name="first">
                 <span slot="label"><i class="el-icon-s-flag"></i> 海外仓问题</span>
@@ -485,6 +485,16 @@
           }
           payMoney(payParam).then(response => {  //支付调用接口
               console.log(response)
+              const payDiv = document.getElementById('payDiv');
+              if (payDiv) {
+                  document.body.removeChild(payDiv);
+              }
+              const div = document.createElement('div');
+              div.id = 'payDiv';
+              div.innerHTML = response.msg;
+              document.body.appendChild(div);
+              document.getElementById('payDiv').getElementsByTagName('form')[0].submit();
+
           }).catch(error => {
               console.log(error)
           })
