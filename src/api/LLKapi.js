@@ -31,3 +31,17 @@ export function registed(data) {  //注册
     data
   })
 }
+export function getCodeApi(data) { //获取验证码
+  return request({
+    url: `/tlPublicInterface/getSend`,
+    method: 'post',
+    data
+  })
+}
+export function verifiCode(data) { //验证 验证码
+  return request({
+    url: `/tlPublicInterface/verificationCode`,
+    method: 'post',
+    data
+  })
+}

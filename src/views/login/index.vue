@@ -18,13 +18,13 @@
           <el-input v-model="form.userName" placeholder="用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!-- 电话验证码输入框 -->
-        <el-form-item v-if="loginType" prop="rcode">
+        <el-form-item v-if="loginType" prop="rcode"> <!---->
           <el-row>
             <el-col :span="17">
               <el-input v-model="form.rcode" placeholder="短信验证码" prefix-icon="el-icon-lock"></el-input>
             </el-col>
             <el-col :span="6" :offset="1">
-              <el-button class="box-btn" type="primary">获取验证码</el-button>
+              <el-button class="box-btn" :disabled="disabled" type="primary"  @click="getCode('login')">获取验证码</el-button> <!--登录-->
             </el-col>
           </el-row>
         </el-form-item>
@@ -70,7 +70,17 @@
         <el-form-item  prop="phone">
           <el-input v-model="registerform.phone" placeholder="手机号" prefix-icon="el-icon-phone"></el-input>
         </el-form-item>
-
+        <!-- 短信验证码输入框 -->
+        <el-form-item > <!---->
+          <el-row>
+            <el-col :span="17">
+              <el-input v-model="registerform.rcode" placeholder="短信验证码" prefix-icon="el-icon-lock"></el-input>
+            </el-col>
+            <el-col :span="6" :offset="1">
+              <el-button class="box-btn" type="primary" @click="getCode('registered')">{{valiBtn}}</el-button> <!--注册-->
+            </el-col>
+          </el-row>
+        </el-form-item>
         <!-- 微信号输入框 -->
         <el-form-item  prop="wxUserId">
           <el-input v-model="registerform.wxUserId" placeholder="微信号" prefix-icon="el-icon-chat-dot-round"></el-input>
@@ -118,7 +128,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { registed } from '../../api/LLKapi'
+import { registed,getCodeApi,verifiCode } from '../../api/LLKapi'
 export default {
   name: 'Login',
   data() {
@@ -137,6 +147,8 @@ export default {
       }
     }
     return {
+        disabled:false,
+        valiBtn:'获取验证码',
         // 登录切换形式状态
         loginType:true,
         // 注册形式状态
@@ -205,14 +217,14 @@ export default {
                 { len: 4, message: "图片验证码只能是4位", trigger: "blur" }
             ],
         },
-
       loginForm: {
           username:'admin',
-          passWord:'123456'
+          password:'123456'
       },
       loading: false,
       passWordType: 'passWord',
-      redirect: undefined
+      redirect: undefined,
+        clickFalt:true
     }
   },
   watch: {
@@ -224,10 +236,43 @@ export default {
     }
   },
   methods: {
+      getCode(e) {
+          if(this.clickFalt){
+              let phone1 = {
+                  phone:this.registerform.phone
+              }
+              if (e == 'registered') { //注册获取验证码
+                  getCodeApi(phone1).then(response => {
+                      console.log(response)
+                  }).catch(error => {
+                      console.log(error)
+                  })
+              }
+              let time = 60;
+              let timer = setInterval(() => {
+                  if(time == 0){
+                      clearInterval(timer);
+                      this.valiBtn = '获取验证码';
+                      this.disabled = false;
+                      this.clickFalt = true
+                  }else{
+                      this.disabled = true;
+                      this.clickFalt = false
+                      console.log(this.disabled,"this.disabled")
+                      this.valiBtn = time + '秒后重试';
+                      time--;
+                  }
+              }, 1000);
+
+          }
+
+
+      },
       // 登录的点击事件
       doLogin(){
           // 找到表单对象,调用validate方法
           this.$refs.loginForm.validate(valid => {
+              console.log(this.loginForm)
               if (valid) {
                   this.loading = true
                   this.$store.dispatch('user/login', this.loginForm).then(() => {
@@ -252,15 +297,26 @@ export default {
       doRegister(){
           // 找到表单对象,调用validate方法
           this.$refs.regForm.validate(v => {
+              let _this = this
               if(v){
-                  // alert('全部通过')
-                  console.log(this.registerform)
-                  let formParam = this.registerform
-                      registed(formParam).then(response => {  //支付调用接口
-                          console.log(response)
-                      }).catch(error => {
-                          console.log(error)
-                      })
+                  // alert('全部通过')  先验证验证码接口是否正确 正确才调用注册接口
+                  let param = {
+                      phone:_this.registerform.phone,
+                      code:_this.registerform.rcode
+                  }
+                  verifiCode(param).then(response => {  //注册验证验证码
+                      console.log(response) //验证成功
+                      // console.log(this.registerform)  //注册提交信息
+                      let formParam = _this.registerform
+                          registed(formParam).then(response => {
+                              this.$message.success("注册成功，赶紧去登录吧！")
+                              console.log(response)
+                          }).catch(error => {
+                              console.log(error)
+                          })
+                  }).catch(error => {
+                      console.log(error)
+                  })
               }
           })
       },

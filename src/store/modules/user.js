@@ -5,7 +5,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    userNumber:''
   }
 }
 
@@ -20,6 +21,9 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
+  },
+  SET_userNumber: (state, userNumber) => {
+    state.userNumber = userNumber
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -40,6 +44,7 @@ const actions = {
         commit('SET_TOKEN', data.token_access)
         setToken(data.token_access)
         commit('SET_NAME', data.user.userName)
+        commit('SET_userNumber', data.user.userNumber)
 
         resolve()
       }).catch(error => {
@@ -72,7 +77,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     let par = {
-      userNumber : 1234
+      userNumber : state.userNumber
     }
     return new Promise((resolve, reject) => {
       logout(par).then(() => {

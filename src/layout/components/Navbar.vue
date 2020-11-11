@@ -54,6 +54,11 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+    data(){
+        return {
+            getUserNumber: this.$store.state.user.userNumber
+        }
+    },
   components: {
     Breadcrumb,
     Hamburger

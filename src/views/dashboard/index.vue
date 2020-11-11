@@ -2,38 +2,50 @@
   <div class="dashboard-container">
     <el-container>
       <el-container>
-        <el-row type="flex" class="row-bg" justify="space-around">
-          <el-col :span="6">
-            <div class="grid-content bg-purple">
-              <div>上午好，某某某</div>
-              <div>欢迎登入商家客户端</div>
-              <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            充值金额：
-            <el-input v-model="money" placeholder="充值金额"></el-input>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content bg-purple-light">
-              <div>钱包余额</div>
-              <div class="textDiv">
-                <div>Y3456.09</div>
-                <div @click="addPayMoney()">确定充值</div>
-                <div>充值历史</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content bg-purple-light">
-              <div>我的账单</div>
-              <div class="textDiv">
-                <div>Y3456.09</div>
-                <div>历史账单</div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+          <div class="two row-bg">
+            <el-row type="flex" class="row-bg" justify="space-around">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+                  <div>上午好，某某某</div>
+                  <div>欢迎登入商家客户端</div>
+                  <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+                </div>
+              </el-col>
+<!--              <el-col :span="8">-->
+<!--                充值金额：-->
+<!--                <el-input v-model="money" placeholder="充值金额"></el-input>-->
+<!--              </el-col>-->
+              <el-col :span="12">
+                <div class="grid-content bg-purple-light">
+                  <div style="text-align: left">钱包余额</div>
+                  <div class="textDiv">
+                    <div>¥3456.09</div>
+                    <div @click="addPayMoney()" style="margin: 0 20px;">
+                      <el-button type="primary" size="mini">确定充值</el-button>
+                    </div>
+                    <div><el-button type="warning" size="mini">充值历史</el-button></div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row type="flex" class="row-bg" justify="space-around">
+              <el-col :span="24">
+                <div class="grid-content bg-purple-light">
+                  <div style="text-align: left">
+                    历史账单
+                  </div>
+                  <div class="textDiv">
+                    <div>¥3456.09</div>
+                    <div style="margin: 0 20px;">
+                      <el-button type="warning" size="mini">历史账单</el-button>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+
+
         <div class="two row-bg">
           <div><i class="el-icon-time" />营销统计</div>
           <el-row type="flex" justify="space-between">
@@ -125,6 +137,37 @@
             </el-col>
           </el-row>
         </div>
+        <div class="two row-bg">
+          <h3>销量最高产品</h3>
+          <el-card>
+            <el-table
+              :data="tableData"
+              style="width: 100%">
+              <el-table-column
+                prop="date"
+                label="产品图"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="SKU"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                label="总销量">
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                label="销售额">
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                label="渠道">
+              </el-table-column>
+            </el-table>
+          </el-card>
+        </div>
         <el-footer>
 
         </el-footer>
@@ -188,7 +231,24 @@ export default {
     data() {
         return {
             money:"",
-            msg: 'Welcome to Your Vue.js App'
+            msg: 'Welcome to Your Vue.js App',
+            tableData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1517 弄'
+            }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1519 弄'
+            }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1516 弄'
+            }]
         }
     },
     mounted() {
@@ -380,7 +440,7 @@ export default {
     }
     .textDiv{
     display: flex;
-      justify-content: space-around;
+      /*justify-content: space-around;*/
       align-items: center;
       div:nth-child(1){
         font-size: 28px;
@@ -432,7 +492,7 @@ export default {
       flex-flow: row wrap;
       .el-col{
         .grid-content{
-          text-align: center;
+          /*text-align: center;*/
         }
       }
     }
