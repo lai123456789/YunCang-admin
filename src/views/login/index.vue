@@ -218,13 +218,14 @@ export default {
             ],
         },
       loginForm: {
-          username:'admin',
-          password:'123456'
+          username:'',
+          password:''
       },
       loading: false,
       passWordType: 'passWord',
       redirect: undefined,
-        clickFalt:true
+        clickFalt:true,
+        checkCodeData:''
     }
   },
   watch: {
@@ -272,19 +273,19 @@ export default {
       doLogin(){
           // 找到表单对象,调用validate方法
           this.$refs.loginForm.validate(valid => {
-              console.log(this.loginForm)
-              if (valid) {
-                  this.loading = true
-                  this.$store.dispatch('user/login', this.loginForm).then(() => {
-                      this.$router.push({ path: this.redirect || '/' })
-                      this.loading = false
-                  }).catch(() => {
-                      this.loading = false
-                  })
-              } else {
-                  console.log('error submit!!')
-                  return false
-              }
+              console.log(this.form)
+              // if (valid) {
+              //     this.loading = true
+              //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+              //         this.$router.push({ path: this.redirect || '/' })
+              //         this.loading = false
+              //     }).catch(() => {
+              //         this.loading = false
+              //     })
+              // } else {
+              //     console.log('error submit!!')
+              //     return false
+              // }
           })
 
       },
@@ -295,32 +296,47 @@ export default {
       },
       // 注册按钮点击事件
       doRegister(){
+          let _this = this
           // 找到表单对象,调用validate方法
           this.$refs.regForm.validate(v => {
-              let _this = this
               if(v){
+                  this.checkCode()
+
+                  // let formParam = _this.registerform
+                  // registed(formParam).then(response => {
+                  //     this.$message.success("注册成功，赶紧去登录吧！")
+                  //     setTimeout(() => {
+                  //         this.register = !this.register;
+                  //         this.$refs.regForm.clearValidate();
+                  //     },2000)
+                  // }).catch(error => {
+                  //     console.log(error)
+                  // })
                   // alert('全部通过')  先验证验证码接口是否正确 正确才调用注册接口
-                  let param = {
-                      phone:_this.registerform.phone,
-                      code:_this.registerform.rcode
-                  }
-                  verifiCode(param).then(response => {  //注册验证验证码
-                      console.log(response) //验证成功
-                      // console.log(this.registerform)  //注册提交信息
-                      let formParam = _this.registerform
-                          registed(formParam).then(response => {
-                              this.$message.success("注册成功，赶紧去登录吧！")
-                              setTimeout(() => {
-                                  this.register = !this.register;
-                                  this.$refs.regForm.clearValidate();
-                              },2000)
-                          }).catch(error => {
-                              console.log(error)
-                          })
-                  }).catch(error => {
-                      this.$message.error('请确认验证码！');
-                  })
+
               }
+          })
+      },
+      awaitFun(){
+          setTimeout(() => {
+              let code = this.checkCodeData || "默认值"
+              console.log("到这里了",code)
+              return code
+          },500)
+      },
+      async checkCode(){  //校验验证码
+          const data = await this.awaitFun()
+          console.log(data,"data")
+          let param = {
+              phone:this.registerform.phone,
+              code:this.registerform.rcode
+          }
+          verifiCode(param).then(response => {  //注册验证验证码
+              this.checkCodeData = 0
+              console.log(response) //验证成功
+          }).catch(error => {
+              this.checkCodeData = 1
+              this.$message.error('请确认验证码！');
           })
       },
       // 登录页跳转注册页面事件
