@@ -310,12 +310,15 @@ export default {
                       let formParam = _this.registerform
                           registed(formParam).then(response => {
                               this.$message.success("注册成功，赶紧去登录吧！")
-                              console.log(response)
+                              setTimeout(() => {
+                                  this.register = !this.register;
+                                  this.$refs.regForm.clearValidate();
+                              },2000)
                           }).catch(error => {
                               console.log(error)
                           })
                   }).catch(error => {
-                      console.log(error)
+                      this.$message.error('请确认验证码！');
                   })
               }
           })
