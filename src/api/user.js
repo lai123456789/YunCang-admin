@@ -1,8 +1,15 @@
 import request from '@/utils/request'
 
 export function login(data) {
+  let url;
+  if(data.Type == 'phoneLogin'){
+    url = '/tlUser/phoneLogin' //手机号登录
+  }else{
+    url = '/tlUser/passWordLogin' //密码登录
+  }
+  console.log("请求器这里",data)
   return request({
-    url: '/tlUser/passWordLogin', //   /tlUser/passWordLogin   /vue-admin-template/user/login
+    url: url, //
     method: 'post',
     data
   })

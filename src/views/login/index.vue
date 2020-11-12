@@ -48,7 +48,7 @@
 
         <!-- 登录按钮 -->
         <el-form-item>
-          <el-button class="box-btn" type="primary" @click="doLogin">登录</el-button>
+          <el-button class="box-btn" type="primary" @click="doLogin('doLogin')">登录</el-button>
         </el-form-item>
 
         <!-- 登录按钮 -->
@@ -225,7 +225,6 @@ export default {
       passWordType: 'passWord',
       redirect: undefined,
         clickFalt:true,
-        checkCodeData:''
     }
   },
   watch: {
@@ -239,16 +238,18 @@ export default {
   methods: {
       getCode(e) {
           if(this.clickFalt){
-              let phone1 = {
-                  phone:this.registerform.phone
+              let phone1 = {}
+              if (e == 'login') { //手机号登录获取验证码
+                  phone1.phone = this.form.phone
               }
               if (e == 'registered') { //注册获取验证码
-                  getCodeApi(phone1).then(response => {
-                      console.log(response)
-                  }).catch(error => {
-                      console.log(error)
-                  })
+                  phone1.phone = this.registerform.phone
               }
+              getCodeApi(phone1).then(response => {
+                  this.$message.success("验证码已发送到您的手机，请注意查收！")
+              }).catch(error => {
+                  console.log(error)
+              })
               let time = 60;
               let timer = setInterval(() => {
                   if(time == 0){
@@ -270,22 +271,23 @@ export default {
 
       },
       // 登录的点击事件
-      doLogin(){
+      doLogin(e){
           // 找到表单对象,调用validate方法
           this.$refs.loginForm.validate(valid => {
               console.log(this.form)
-              // if (valid) {
-              //     this.loading = true
-              //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-              //         this.$router.push({ path: this.redirect || '/' })
-              //         this.loading = false
-              //     }).catch(() => {
-              //         this.loading = false
-              //     })
-              // } else {
-              //     console.log('error submit!!')
-              //     return false
-              // }
+              if (valid) {
+                  this.checkCode(e)
+                  // this.loading = true
+                  // this.$store.dispatch('user/login', this.loginForm).then(() => {
+                  //     this.$router.push({ path: this.redirect || '/' })
+                  //     this.loading = false
+                  // }).catch(() => {
+                  //     this.loading = false
+                  // })
+              } else {
+                  console.log('error submit!!')
+                  return false
+              }
           })
 
       },
@@ -317,27 +319,38 @@ export default {
               }
           })
       },
-      awaitFun(){
-          setTimeout(() => {
-              let code = this.checkCodeData || "默认值"
-              console.log("到这里了",code)
-              return code
-          },500)
-      },
-      async checkCode(){  //校验验证码
-          const data = await this.awaitFun()
-          console.log(data,"data")
-          let param = {
-              phone:this.registerform.phone,
-              code:this.registerform.rcode
+      checkCode(e){  //校验验证码
+          let param = {}
+          if(e == 'doLogin'){
+              if(this.loginType){ //手机登录
+                  param.phone = this.form.phone
+                  param.code = this.form.rcode
+                  param.Type = 'phoneLogin'
+              }else{ //账号密码登录
+                  param.userName = this.form.userName
+                  param.passWord = this.form.passWord
+                  param.Type = 'passwordLogin'
+              }
           }
-          verifiCode(param).then(response => {  //注册验证验证码
-              this.checkCodeData = 0
+          verifiCode(param).then(response => {  //验证验证码
               console.log(response) //验证成功
+              if(e == 'doLogin'){
+                  this.loading = true
+                  this.$store.dispatch('user/login', param).then(() => {
+                      this.$router.push({ path: this.redirect || '/' })
+                      this.loading = false
+                  }).catch(() => {
+                      this.loading = false
+                  })
+              }
           }).catch(error => {
-              this.checkCodeData = 1
               this.$message.error('请确认验证码！');
           })
+          // let param = {
+          //     phone:this.registerform.phone,
+          //     code:this.registerform.rcode
+          // }
+
       },
       // 登录页跳转注册页面事件
       changeRegister(){
