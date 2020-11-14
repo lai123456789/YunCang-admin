@@ -22,64 +22,108 @@
         style="width: 100%;"
         :data="tableForm"
       >
+        <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column
-          prop="NUm"
+          prop="applyNumber"
           label="申请编码"
         ></el-table-column>
         <el-table-column
-          prop="price"
+          prop="applyMoney"
           label="申请返现金额"
         ></el-table-column>
         <el-table-column
-          prop="TimeFrom"
+          prop="createTime"
           label="申请时间"
         ></el-table-column>
         <el-table-column
           prop="status"
           label="状态"
         ></el-table-column>
+        <el-table-column prop="status" label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status === 0">审核中</span>
+            <span v-if="scope.row.status === 1">已返现</span>
+            <span v-if="scope.row.status === 2">驳回</span>
+          </template>
+        </el-table-column>
         <el-table-column
-          prop="text"
+          prop="note"
           label="备注"
         ></el-table-column>
         <el-table-column
-          prop="TimeTo"
+          prop="payTime"
           label="返现时间"
         ></el-table-column>
       </el-table>
+
+      <el-pagination
+        background
+        @size-change="sizeChanged"
+        @current-change="pageChange"
+        :current-page="page"
+        :page-sizes="[ 10, 20, 30, 40,50]"
+        :page-size="limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="count"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
 <script>
 // import {accountInfo,applyReturnMoney,pageInfo} from '@/api/invite.js'
-import {accountInfo} from '@/api/invite.js'
+import {accountInfo,pageInfo} from '@/api/invite.js'
+import qs from 'qs'
 export default {
   data() {
     return {
       // 上面行内表单绑定的对象
       formInline: {},
-      tableForm: [
-        {
-          NUm: "20201030001",
-          price: 200,
-          TimeFrom: "2020/10/22",
-          TimeTo: "2020/10/30",
-          status: "已返现",
-          text: "已完成",
-        },
-      ]
+      tableForm: [],
+      page: 1,
+      limit: 10,
+      count: 0,
     };
   },
   created(){
     this.accountInfo()
+    this.pageInfo()
   },
   methods:{
+    //获取账户信息
     accountInfo(){
       let params = {
-        userId:2
+        userId:this.$store.state.user.userId
       }
       accountInfo(params).then(res=>{
         console.log(res)
+        if(res.code==1){
+          this.formInline = res.data
+        }
+      })
+    },
+    sizeChanged(limit) {
+      this.limit = limit;
+      this.page = 1;
+      this.getList();
+    },
+
+    pageChange(page) {
+      this.page = page;
+      this.getList();
+    },
+    //获取分页
+    pageInfo(){
+      let params = {
+        page:this.page,
+        limit:this.limit,
+        userId:this.$store.state.user.userId,
+      }
+      pageInfo(params).then(res=>{
+        if(res.code==1){
+          console.log(res)
+          this.tableForm = res.data;
+          this.count = res.count
+        }
       })
     }
   }
@@ -122,5 +166,9 @@ li {
 }
 .clearfix {
   *zoom: 1;
+}
+.el-pagination{
+  text-align: right;
+  margin-top: 16px;
 }
 </style>
