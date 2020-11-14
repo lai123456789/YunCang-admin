@@ -12,8 +12,23 @@
         </ul>
       </div>
       <div class="btn">
-        <el-button type="primary">申请返现</el-button>
+        <el-button type="primary" @click="dialogFormVisible = true">申请返现</el-button>
       </div>
+
+      <el-dialog title="申请返现" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="返现金额" :label-width="formLabelWidth">
+            <el-input v-model="form.money" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="用户ID" :label-width="formLabelWidth">
+            <el-input v-model="form.userId" autocomplete="off" disabled></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submit">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
     <!-- 下面卡片 -->
     <el-card class="box-card">
@@ -70,18 +85,23 @@
   </div>
 </template>
 <script>
-// import {accountInfo,applyReturnMoney,pageInfo} from '@/api/invite.js'
-import {accountInfo,pageInfo} from '@/api/invite.js'
+import {accountInfo,applyReturnMoney,pageInfo} from '@/api/invite.js'
 import qs from 'qs'
 export default {
   data() {
     return {
       // 上面行内表单绑定的对象
+      form:{
+        money:'',
+        userId:this.$StorageUserId,
+      },
       formInline: {},
       tableForm: [],
       page: 1,
       limit: 10,
       count: 0,
+      dialogFormVisible: false,
+      formLabelWidth: '120px'
     };
   },
   created(){
@@ -92,12 +112,30 @@ export default {
     //获取账户信息
     accountInfo(){
       let params = {
-        userId:this.$store.state.user.userId
+        userId:this.$StorageUserId
       }
       accountInfo(params).then(res=>{
         console.log(res)
         if(res.code==1){
           this.formInline = res.data
+        }
+      })
+    },
+    //申请返现
+    submit(){
+      this.applyReturnMoney()
+    },
+    applyReturnMoney(){
+      let params={
+        ...this.form
+      }
+      console.log(params)
+      applyReturnMoney(params).then(res=>{
+        console.log(res)
+        if(res.code==1){
+          this.$message.success('申请成功')
+        }else{
+          this.$message.success(res.msg)
         }
       })
     },
@@ -116,7 +154,7 @@ export default {
       let params = {
         page:this.page,
         limit:this.limit,
-        userId:this.$store.state.user.userId,
+        userId:this.$StorageUserId,
       }
       pageInfo(params).then(res=>{
         if(res.code==1){

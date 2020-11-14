@@ -5,6 +5,7 @@ export function accountInfo(data) {
   return request({
     url: '/tlApplyReturnMoney/accountInfo',
     method: 'post',
+    type:'applicationForm',
     data
   })
 }
@@ -14,6 +15,7 @@ export function applyReturnMoney(data) {
     return request({
       url: '/tlApplyReturnMoney/applyReturnMoney',
       method: 'post',
+      type:'applicationForm',
       data
     })
   }
@@ -27,3 +29,11 @@ export function pageInfo(data) {
     })
   }
   
+//分佣记录
+export function CommissionAmount(data) {
+  return request({
+    url: '/tlCommissionAmount/pageInfo',
+    method: 'post',
+    data
+  })
+}

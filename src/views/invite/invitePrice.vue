@@ -8,55 +8,87 @@
         style="width: 100%;"
         :data="tableForm"
       >
+        <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column
-          prop="UserName"
+          prop="rechargeUserName"
           label="充值用户"
         ></el-table-column>
         <el-table-column
-          prop="price"
+          prop="money"
           label="充值金额"
         ></el-table-column>
         <el-table-column
-          prop="Num"
+          prop="orderNumber"
           label="充值订单号"
         ></el-table-column>
         <el-table-column
-          prop="TimeFrom"
+          prop="payTime"
           label="充值时间"
         ></el-table-column>
         <el-table-column
-          prop="text"
+          prop="commissionPercentage"
           label="分佣比例"
         ></el-table-column>
         <el-table-column
-          prop="priceTo"
+          prop="commissionMoney"
           label="获得返现金额"
         ></el-table-column>
       </el-table>
+
+      <el-pagination
+        background
+        @size-change="sizeChanged"
+        @current-change="pageChange"
+        :current-page="page"
+        :page-sizes="[ 10, 20, 30, 40,50]"
+        :page-size="limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="count"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
 <script>
+
+import { CommissionAmount } from '@/api/invite.js'
 export default {
   data() {
     return {
-      // 上面行内表单绑定的对象
-      formInline: {
-        emailID: "",
-        rid: ""
-      },
-      tableForm: [
-        {
-          UserName:'张三',
-          Num: "20201030001",
-          price: 200,
-          TimeFrom: "2020/10/22",
-          priceTo: "120",
-          status: "已返现",
-          text: "3%",
-        },
-      ]
+      tableForm: [],
+      page: 1,
+      limit: 10,
+      count: 0,
     };
+  },
+  created(){
+    this.CommissionAmount()
+  },
+  methods:{
+    sizeChanged(limit) {
+      this.limit = limit;
+      this.page = 1;
+      this.getList();
+    },
+
+    pageChange(page) {
+      this.page = page;
+      this.getList();
+    },
+    //获取分页
+    CommissionAmount(){
+      let params = {
+        page:this.page,
+        limit:this.limit,
+        userId:this.$StorageUserId,
+      }
+      CommissionAmount(params).then(res=>{
+        if(res.code==1){
+          console.log(res)
+          this.tableForm = res.data;
+          this.count = res.count
+        }
+      })
+    }
   }
 };
 </script>
@@ -97,5 +129,9 @@ li {
 }
 .clearfix {
   *zoom: 1;
+}
+.el-pagination{
+  text-align: right;
+  margin-top: 16px;
 }
 </style>
