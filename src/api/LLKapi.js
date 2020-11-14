@@ -35,6 +35,7 @@ export function getCodeApi(data) { //获取验证码
   return request({
     url: `/tlPublicInterface/getSend`,
     method: 'post',
+    type: 'applicationForm',
     data
   })
 }

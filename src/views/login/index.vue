@@ -93,7 +93,7 @@
         </el-form-item>
 
         <!-- 密码输入框 -->
-        <el-form-item  prop="passWord">
+        <el-form-item  prop="RepeatpassWord">
           <el-input v-model="registerform.RepeatpassWord" placeholder="请再次输入密码" show-passWord prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
 
@@ -112,7 +112,7 @@
 
         <!-- 登录按钮 -->
         <el-form-item>
-          <el-button class="box-btn" type="primary" @click="doRegister">注册</el-button>
+          <el-button class="box-btn" type="primary" @click="doRegister('register')">注册</el-button>
         </el-form-item>
 
         <!-- 登录按钮 -->
@@ -132,20 +132,17 @@ import { registed,getCodeApi,verifiCode } from '../../api/LLKapi'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
+      const validatePass2 = (rule, value, callback) => {
+          if (value === '') {
+              callback(new Error('请再次输入密码'))
+          } else if (value !== this.registerform.passWord) {
+              console.log(value)
+              console.log(this.registerform.passWord,"this.form.passWord")
+              callback(new Error('两次输入密码不一致!'))
+          } else {
+              callback()
+          }
       }
-    }
-    const validatepassWord = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The passWord can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
         disabled:false,
         valiBtn:'获取验证码',
@@ -177,7 +174,8 @@ export default {
             wxUserId:"",
             // 密码
             passWord:"",
-
+            //二次密码
+            RepeatpassWord:'',
             // 图形验证码
             imgCode:"",
         },
@@ -208,6 +206,10 @@ export default {
             // 密码规则
             passWord: [
                 { required: true, message: "密码不能为空", trigger: "blur" }
+            ],
+            // 确认密码一致规则
+            RepeatpassWord: [
+                { required: true, validator: validatePass2, trigger: 'blur' }
             ],
 
             // 图片验证码规则
@@ -297,23 +299,13 @@ export default {
           this.$refs.loginForm.clearValidate();
       },
       // 注册按钮点击事件
-      doRegister(){
+      doRegister(e){
           let _this = this
           // 找到表单对象,调用validate方法
           this.$refs.regForm.validate(v => {
               if(v){
-                  this.checkCode()
+                  this.checkCode(e)
 
-                  // let formParam = _this.registerform
-                  // registed(formParam).then(response => {
-                  //     this.$message.success("注册成功，赶紧去登录吧！")
-                  //     setTimeout(() => {
-                  //         this.register = !this.register;
-                  //         this.$refs.regForm.clearValidate();
-                  //     },2000)
-                  // }).catch(error => {
-                  //     console.log(error)
-                  // })
                   // alert('全部通过')  先验证验证码接口是否正确 正确才调用注册接口
 
               }
@@ -326,15 +318,23 @@ export default {
                   param.phone = this.form.phone
                   param.code = this.form.rcode
                   param.Type = 'phoneLogin'
-              }else{ //账号密码登录
+                  verifiCode(param).then(response => {  //验证验证码
+                      console.log(response) //验证成功
+                          this.loading = true
+                          this.$store.dispatch('user/login', param).then(() => {
+                              this.$router.push({ path: this.redirect || '/' })
+                              this.loading = false
+                          }).catch(() => {
+                              this.loading = false
+                          })
+                  }).catch(error => {
+                      this.$message.error('请确认验证码！');
+                  })
+
+              }else{ //账号密码登录 无需验证码校验
                   param.userName = this.form.userName
                   param.passWord = this.form.passWord
                   param.Type = 'passwordLogin'
-              }
-          }
-          verifiCode(param).then(response => {  //验证验证码
-              console.log(response) //验证成功
-              if(e == 'doLogin'){
                   this.loading = true
                   this.$store.dispatch('user/login', param).then(() => {
                       this.$router.push({ path: this.redirect || '/' })
@@ -343,13 +343,41 @@ export default {
                       this.loading = false
                   })
               }
-          }).catch(error => {
-              this.$message.error('请确认验证码！');
-          })
-          // let param = {
-          //     phone:this.registerform.phone,
-          //     code:this.registerform.rcode
-          // }
+          }
+          if(e == 'register'){ //测试注册
+              param.phone = this.registerform.phone
+              param.code = this.registerform.rcode
+              verifiCode(param).then(response => {  //验证验证码
+                  // 用户名
+                  // userName:"",
+                  //     // 电话
+                  //     phone: "",
+                  //     // wxUserId
+                  //     wxUserId:"",
+                  //     // 密码
+                  //     passWord:"",
+                  //     // 图形验证码
+                  //     imgCode:"",
+                  let registerForm = this.registerform
+                  let formParam = {
+                      userName:registerForm.userName,
+                      phone:registerForm.phone,
+                      wxUserId:registerForm.wxUserId,
+                      passWord:registerForm.passWord
+                  }
+                  registed(formParam).then(response => {
+                      this.$message.success("注册成功，赶紧去登录吧！")
+                      setTimeout(() => {
+                          this.register = !this.register;
+                          this.$refs.regForm.clearValidate();
+                      },2000)
+                  }).catch(error => {
+                      console.log(error)
+                  })
+              }).catch(error => {
+                  this.$message.error('请确认验证码！');
+              })
+          }
 
       },
       // 登录页跳转注册页面事件

@@ -2,20 +2,22 @@
   <div class="dashboard-container">
     <el-container>
       <el-container>
-          <div class="two row-bg">
+          <div class="row-bg">
             <el-row type="flex" class="row-bg" justify="space-around">
-              <el-col :span="12">
+              <el-col :span="8">
                 <div class="grid-content bg-purple">
                   <div>上午好，某某某</div>
-                  <div>欢迎登入商家客户端</div>
-                  <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+                  <div class="">
+                    <div style="line-height: 30px">欢迎登入商家客户端</div>
+                    <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+                  </div>
                 </div>
               </el-col>
 <!--              <el-col :span="8">-->
 <!--                充值金额：-->
 <!--                <el-input v-model="money" placeholder="充值金额"></el-input>-->
 <!--              </el-col>-->
-              <el-col :span="12">
+              <el-col :span="10">
                 <div class="grid-content bg-purple-light">
                   <div style="text-align: left">钱包余额</div>
                   <div class="textDiv">
@@ -27,21 +29,20 @@
                   </div>
                 </div>
               </el-col>
-            </el-row>
-            <el-row type="flex" class="row-bg" justify="space-around">
-              <el-col :span="24">
+              <el-col :span="6">
                 <div class="grid-content bg-purple-light">
-                  <div style="text-align: left">
+                  <div style="text-align: left;">
                     历史账单
                   </div>
                   <div class="textDiv">
                     <div>¥3456.09</div>
-                    <div style="margin: 0 20px;">
+                    <div style="margin-left: 10px">
                       <el-button type="warning" size="mini">历史账单</el-button>
                     </div>
                   </div>
                 </div>
               </el-col>
+
             </el-row>
           </div>
 
@@ -175,15 +176,11 @@
       <el-aside width="400px">
         <div class="bg-right-1">
           <div class="bg-index">
-            <div class="bg-title">
+            <div class="bg-title" style="margin-bottom:20px">
               <i class="el-icon-time" />
-              <span>最新公告</span>
+              <span>最新公告{{StorageUserId}}</span>
             </div>
-            <div>最新公告的标题</div>
-            <div>最新公告的标题</div>
-            <div>最新公告的标题</div>
-            <div>最新公告的标题</div>
-            <div>最新公告的标题</div>
+            <div v-for="(item,index) in AnnouncementNew">{{item.title}}</div>
           </div>
 
         </div>
@@ -221,6 +218,7 @@
     require('echarts/lib/component/title')
 import { mapGetters } from 'vuex'
     import { ceshi,payMoney } from '../../api/LLKapi'
+    import { getNewAnnouncementApi,getStatementOrderApi } from '../../api/index'
 export default {
   name: 'Dashboard',
   computed: {
@@ -248,14 +246,31 @@ export default {
                 date: '2016-05-03',
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1516 弄'
-            }]
+            }],
+            AnnouncementNew:[]
         }
     },
     mounted() {
         this.drawLine();
-        this.getList()
+        this.getList();
+        this.getNewAnnouncement();//最新5条公告
+        this.getStatementOrder();
     },
     methods: {
+      getNewAnnouncement(){
+          getNewAnnouncementApi().then(res => {  //获取最新5条公告
+              this.AnnouncementNew = res.data
+          }).catch(error => {
+              console.log(error)
+          })
+      },
+        getStatementOrder(){
+            getStatementOrderApi({userId:this.$StorageUserId}).then(res => {  //获取首页报表
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         addPayMoney(){
             let par = {
                 id:2,
@@ -440,6 +455,7 @@ export default {
     }
     .textDiv{
     display: flex;
+      margin-top: 20px;
       /*justify-content: space-around;*/
       align-items: center;
       div:nth-child(1){

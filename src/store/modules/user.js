@@ -50,6 +50,9 @@ const actions = {
         commit('SET_NAME', data.user.userName)
         commit('SET_userNumber', data.user.userNumber)
         commit('SET_userId', data.user.id)
+
+        window.localStorage.setItem('userId',data.user.id) //设置缓存userId
+
         resolve()
       }).catch(error => {
         reject(error)

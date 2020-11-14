@@ -15,16 +15,22 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
-    }
+    // if (store.getters.token) {
+    //   // let each request carry token
+    //   // ['X-Token'] is a custom headers key
+    //   // please modify it according to the actual situation
+    //   // config.headers['X-Token'] = getToken()
+    // }
 
-    if(config.method==='post')
-    {
+    // if(config.method==='post')
+    // {
+    //   config.data=qs.stringify(config.data);
+    // }
+    if(config.type === 'applicationForm'){ //字符串格式  把传参data序列化
       config.data=qs.stringify(config.data);
+    }
+    if(config.type === 'applicationJson'){ //对象格式  系统默认对象格式 不用管
+
     }
 
 

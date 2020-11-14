@@ -7,10 +7,10 @@ export function login(data) {
   }else{
     url = '/tlUser/passWordLogin' //密码登录
   }
-  console.log("请求器这里",data)
   return request({
     url: url, //
     method: 'post',
+    type: 'applicationForm',
     data
   })
 }
@@ -27,6 +27,7 @@ export function logout(data) {
   return request({
     url: '/tlUser/exitLogin', ///vue-admin-template/user/logout
     method: 'post',
+    type: 'applicationForm',
     data
   })
 }
