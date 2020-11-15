@@ -46,28 +46,23 @@
 
                   <el-table-column prop="platformName" label="平台"></el-table-column>
                   <el-table-column prop="shopName" label="店铺名"></el-table-column>
-                  <el-table-column  label="订单商品信息" type="expand">
-                    <template slot-scope="props">
-                      <el-form label-position="left">
-                        <el-form-item label="商品名称">
-                          <span>{{ props.row.products[0].name }}</span>
-                        </el-form-item>
-                        <el-form-item label="商品ID">
-                          <span>{{ props.row.products[0].id }}</span>
-                        </el-form-item>
-                        <el-form-item label="商品单价">
-                          <span>{{ props.row.products[0].price }}</span>
-                        </el-form-item>
-                        <el-form-item label="商品sku" v-if="props.row.products[0].sku">
-                          <span>{{ props.row.products[0].sku }}</span>
-                        </el-form-item>
-                        <el-form-item label="商品规格" v-if="props.row.products[0].specification">
-                          <span>{{ props.row.products[0].specification }}</span>
-                        </el-form-item>
-                        <el-form-item label="商品数量">
-                          <span>{{ props.row.products[0].num }}</span>
-                        </el-form-item>
-                      </el-form>
+                  <el-table-column  label="订单商品信息" width="300px">
+                    <template  slot-scope="scope">
+                      <div v-for="item in scope.row.products" :key="item.id" style="display: flex;align-items: center">
+                        <div ><img :src="item.headPic" alt="" style="width: 80px;height: 80px;"></div>
+                        <div style="margin-left: 10px">
+                          <el-tooltip class="item" effect="dark" :content="item.name" placement="top">
+                            <p style="line-height: 15px;white-space: nowrap;overflow: hidden;
+                          text-overflow: ellipsis;width: 180px">{{item.name}}</p>
+                          </el-tooltip>
+                          <p style="line-height: 15px" v-if="item.sku">SKU：{{item.sku}}</p>
+                          <p style="line-height: 15px;text-align: left" v-else>SKU：_</p>
+                          <p style="line-height:15px;display: flex;justify-content: space-between">
+                            <span>单价：{{item.price}}</span>
+                            <span>数量：{{item.num}}</span>
+                          </p>
+                        </div>
+                      </div>
                     </template>
                   </el-table-column>
 
@@ -77,7 +72,12 @@
                   <el-table-column prop="transportNum" label="运单号"></el-table-column>
                   <el-table-column prop="status" label="物流状态"></el-table-column>
                   <el-table-column prop="channel" label="渠道"></el-table-column>
-                  <el-table-column prop="faceOrder" label="面单"></el-table-column>
+                  <el-table-column label="面单">
+                    <template  slot-scope="scope">
+                      <a :href="scope.row.faceOrder" style="color: #333333" target="_blank"
+                      v-if="scope.row.faceOrder">查看面单</a>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="anticipatedProfit" label="预期利润"></el-table-column>
                   <el-table-column prop="charge" label="收费"></el-table-column>
                 </el-table>
