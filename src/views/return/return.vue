@@ -15,7 +15,6 @@
           >
             <el-form-item>
               <el-input
-                placeholder="请输入运单号或订单号"
                 v-model="keyword"
                 style="width:200px;"
                 suffix-icon="el-icon-search"
@@ -23,6 +22,9 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="search">搜索</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="danger" @click="search">批量申请下架销毁</el-button>
             </el-form-item>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
@@ -126,7 +128,6 @@
           >
             <el-form-item>
               <el-input
-                placeholder="请输入运单号或订单号"
                 v-model="keyword"
                 style="width:200px;"
                 suffix-icon="el-icon-search"
@@ -230,7 +231,6 @@
           >
             <el-form-item>
               <el-input
-                placeholder="请输入运单号或订单号"
                 v-model="keyword"
                 style="width:200px;"
                 suffix-icon="el-icon-search"
@@ -341,7 +341,6 @@
           >
             <el-form-item>
               <el-input
-                placeholder="请输入运单号或订单号"
                 v-model="keyword"
                 style="width:200px;"
                 suffix-icon="el-icon-search"
@@ -453,7 +452,6 @@
           >
             <el-form-item>
               <el-input
-                placeholder="请输入运单号或订单号"
                 v-model="keyword"
                 style="width:200px;"
                 suffix-icon="el-icon-search"
@@ -585,12 +583,12 @@ export default {
     sizeChanged(limit) {
       this.limit = limit;
       this.page = 1;
-      this.getList();
+      this.pageInfo();
     },
 
     pageChange(page) {
       this.page = page;
-      this.getList();
+      this.pageInfo();
     },
     //获取分页
     pageInfo(keyword) {
