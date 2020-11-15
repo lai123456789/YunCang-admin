@@ -8,7 +8,7 @@
             平台订单号
             <el-input
               placeholder="请输入订单号"
-              v-model="formInline.rid"
+              v-model="formInline.orderNum"
               style="width:200px;"
               suffix-icon="el-icon-search"
             ></el-input>
@@ -17,7 +17,7 @@
             平台订单号
             <el-input
               placeholder="请输入运单号"
-              v-model="formInline.rid"
+              v-model="formInline.transportNum"
               style="width:200px;"
               suffix-icon="el-icon-search"
             ></el-input>
@@ -26,108 +26,72 @@
             店铺名称
             <el-input
               placeholder="请输入店铺名"
-              v-model="formInline.rid"
+              v-model="formInline.shopName"
               style="width:200px;"
               suffix-icon="el-icon-search"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">搜索</el-button>
-            <el-button >重置</el-button>
+            <el-button type="primary" @click="search">搜索</el-button>
+            <el-button @click="reset">重置</el-button>
           </el-form-item>
         </el-form>
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="未申请发货" name="first">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tabList">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
-                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
-                  <el-table-column  prop="money"  label="收费"></el-table-column>
-                  <el-table-column  label="存储位置"></el-table-column>
-                  <el-table-column  label="操作"></el-table-column>
+                <el-table style="width: 100%;margin-bottom: 20px" :data="tableForm">
+
+
+                  <el-table-column prop="platformName" label="平台"></el-table-column>
+                  <el-table-column prop="shopName" label="店铺名"></el-table-column>
+                  <el-table-column  label="订单商品信息" type="expand">
+                    <template slot-scope="props">
+                      <el-form label-position="left">
+                        <el-form-item label="商品名称">
+                          <span>{{ props.row.products[0].name }}</span>
+                        </el-form-item>
+                        <el-form-item label="商品ID">
+                          <span>{{ props.row.products[0].id }}</span>
+                        </el-form-item>
+                        <el-form-item label="商品单价">
+                          <span>{{ props.row.products[0].price }}</span>
+                        </el-form-item>
+                        <el-form-item label="商品sku" v-if="props.row.products[0].sku">
+                          <span>{{ props.row.products[0].sku }}</span>
+                        </el-form-item>
+                        <el-form-item label="商品规格" v-if="props.row.products[0].specification">
+                          <span>{{ props.row.products[0].specification }}</span>
+                        </el-form-item>
+                        <el-form-item label="商品数量">
+                          <span>{{ props.row.products[0].num }}</span>
+                        </el-form-item>
+                      </el-form>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column prop="orderNum" label="平台订单号"></el-table-column>
+                  <el-table-column prop="placeTime" label="下单时间"></el-table-column>
+                  <el-table-column prop="createdTime" label="订单创建时间"></el-table-column>
+                  <el-table-column prop="transportNum" label="运单号"></el-table-column>
+                  <el-table-column prop="status" label="物流状态"></el-table-column>
+                  <el-table-column prop="channel" label="渠道"></el-table-column>
+                  <el-table-column prop="faceOrder" label="面单"></el-table-column>
+                  <el-table-column prop="anticipatedProfit" label="预期利润"></el-table-column>
+                  <el-table-column prop="charge" label="收费"></el-table-column>
                 </el-table>
-              </el-card>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="待菜鸟仓处理" name="second">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline">
-              <!-- 下面卡片 -->
-              <el-card class="box-card box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
-                  <el-table-column  prop="New_Num"  label="新运单号"></el-table-column>
-                  <el-table-column  prop="money"  label="收费"></el-table-column>
-                  <el-table-column   label="存储位置"></el-table-column>
-                  <el-table-column   label="状态"></el-table-column>
-                  <el-table-column   label="操作"></el-table-column>
-                </el-table>
-              </el-card>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="已完成订单" name="third">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline">
-              <!-- 下面卡片 -->
-              <el-card class="box-card  box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column prop="end_time"  label="退件到仓时间"></el-table-column>
-                  <el-table-column prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column prop="Waybill_Num" label="原运单号"></el-table-column>
-                  <el-table-column prop="New_Num"  label="新运单号"></el-table-column>
-                  <el-table-column prop="money"  label="收费"></el-table-column>
-                  <el-table-column prop="send_time"  label="发货时间"></el-table-column>
-                </el-table>
-              </el-card>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="全部订单" name="fourth">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline">
-              <!-- 下面卡片 -->
-              <el-card class="box-card box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
-                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
-                  <el-table-column  prop="money"  label="收费"></el-table-column>
-                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
-                </el-table>
-              </el-card>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="发货任务队列" name="five">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline">
-              <!-- 下面卡片 -->
-              <el-card class="box-card box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
-                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
-                  <el-table-column  prop="money"  label="收费"></el-table-column>
-                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
-                </el-table>
-              </el-card>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="搜索结果" name="six">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline">
-              <!-- 下面卡片 -->
-              <el-card class="box-card box-card1">
-                <el-table border style="width: 100%;" :data="tableForm">
-                  <el-table-column  prop="end_time"  label="退件到仓时间"></el-table-column>
-                  <el-table-column  prop="shop_name"  label="平台和店铺"></el-table-column>
-                  <el-table-column  prop="order_text"  label="订单详情"></el-table-column>
-                  <el-table-column  prop="Waybill_Num"  label="原运单号"></el-table-column>
-                  <el-table-column  prop="money"  label="收费"></el-table-column>
-                  <el-table-column  prop="ending_time"  label="销毁时间"></el-table-column>
-                </el-table>
+
+                <el-pagination
+                  background
+                  @size-change="sizeChanged"
+                  @current-change="pageChange"
+                  :current-page="apiParam.page"
+                  :page-sizes="[ 10, 20, 30, 40,50]"
+                  :page-size="apiParam.limit"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="apiParam.count"
+                ></el-pagination>
               </el-card>
             </el-form>
           </el-tab-pane>
@@ -138,100 +102,118 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-        activeName: "first",
-        // 上面行内表单绑定的对象
-        formInline: {
-            rid:"",
+    import {getTableApi} from '../../api/LLKapi'
+
+    export default {
+
+        data() {
+            return {
+                tabList: [
+                    {name: 'first', title: '未申请发货', type: 1},
+                    {name: 'second', title: '待菜鸟仓处理', type: 2},
+                    {name: 'third', title: '已完成订单', type: 3},
+                    {name: 'fourth', title: '全部订单', type: 4},
+                ],
+                activeName: "first",
+                // 上面行内表单绑定的对象
+                formInline: {
+                    orderNum: "",
+                    transportNum: "",
+                    shopName: ""
+                },
+                apiParam:{
+                    type:1,
+                    page: 1,
+                    limit: 10,
+                    count: 0,
+                    platformName: "",
+                    search: ""
+                },
+
+                tableForm: []
+            }
         },
-        tableForm:[
-            {
-                end_time:'2020/08/16',
-                shop_name:'云仓一号',
-                order_text:'XXXX',
-                Waybill_Num:'20200816001',
-                New_Num:'20200817005',
-                money:'20',
-                ending_time:'2020/08/17',
-                send_time:'2020/08/16',
+        mounted() {
+            this.getTable()
+        },
+        methods: {
+            getTable() {
+                let params = {
+                    type:  this.apiParam.type,
+                    page: this.apiParam.page,
+                    limit: this.apiParam.limit,
+                    userId: this.$StorageUserId,
+                    platformName: this.apiParam.platformName,
+                    search: this.apiParam.search
+                }
+                getTableApi(params).then(res => {  //获取订单推送列表
+                    this.tableForm = res.data
+                    this.apiParam.count = res.count
+                }).catch(error => {
+                    console.log(error)
+                })
             },
-            {
-                end_time:'2020/08/16',
-                shop_name:'云仓一号',
-                order_text:'XXXX',
-                Waybill_Num:'20200816001',
-                New_Num:'20200817005',
-                money:'20',
-                ending_time:'2020/08/17',
-                send_time:'2020/08/16',
+            sizeChanged(limit) {
+                this.apiParam.limit = limit;
+                this.apiParam.page = 1;
+                this.getTable();
             },
-            {
-                end_time:'2020/08/16',
-                shop_name:'云仓一号',
-                order_text:'XXXX',
-                Waybill_Num:'20200816001',
-                New_Num:'20200817005',
-                money:'20',
-                ending_time:'2020/08/17',
-                send_time:'2020/08/16',
+            pageChange(page) {
+                this.apiParam.page = page;
+                this.getTable();
             },
-            {
-                end_time:'2020/08/16',
-                shop_name:'云仓一号',
-                order_text:'XXXX',
-                Waybill_Num:'20200816001',
-                New_Num:'20200817005',
-                money:'20',
-                ending_time:'2020/08/17',
-                send_time:'2020/08/16',
+            handleClick(tab, event) {
+                console.log(tab.index);//0开始
+                let index = Number(tab.index) + 1
+                this.apiParam.type = index
+                this.tableForm = []
+                this.apiParam.count = 0
+                this.getTable()
             },
-            {
-                end_time:'2020/08/16',
-                shop_name:'云仓一号',
-                order_text:'XXXX',
-                Waybill_Num:'20200816001',
-                New_Num:'20200817005',
-                money:'20',
-                ending_time:'2020/08/17',
-                send_time:'2020/08/16',
+            search(){
+                this.apiParam.search = this.formInline
+                this.getTable()
+
+
             },
-        ]
+            reset(){
+
+            },
+            onSubmit() {
+                this.$message('submit!')
+            },
+            onCancel() {
+                this.$message({
+                    message: 'cancel!',
+                    type: 'warning'
+                })
+            }
+        }
     }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    }
-  }
-}
 </script>
 
 <style lang="scss">
-  .topButton{
-    button:nth-child(1){
+  .topButton {
+    button:nth-child(1) {
       margin-bottom: 10px;
     }
-    .jiebang{
+
+    .jiebang {
       width: 144px;
     }
   }
+
   .topTable {
     table {
       width: 100%;
-      border-collapse:collapse;
-      tr{
-        td:nth-child(1){
+      border-collapse: collapse;
+
+      tr {
+        td:nth-child(1) {
           width: 20%;
         }
-        td{
+
+        td {
           height: 44px;
           text-align: center;
           border: 1px solid #999999;
@@ -240,13 +222,15 @@ export default {
     }
 
   }
-  .el-tabs{
-    .el-tabs__header{
-      .el-tabs__nav-wrap{
-        .is-active{
+
+  .el-tabs {
+    .el-tabs__header {
+      .el-tabs__nav-wrap {
+        .is-active {
           /*color:#E6A23C !important;*/
         }
-        .el-tabs__active-bar{
+
+        .el-tabs__active-bar {
           /*background-color:#E6A23C !important;*/
         }
       }

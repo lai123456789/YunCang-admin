@@ -34,9 +34,9 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 //全局引入获取缓存方法 新增
-import StorageUserId from './utils/localStorage';
-Vue.prototype.$StorageUserId = StorageUserId;  //全局  获取缓存信息
-
+import {StorageUserId,StorageUserInfo} from './utils/localStorage';
+Vue.prototype.$StorageUserId = StorageUserId;  //全局  获取缓存userId
+Vue.prototype.$StorageUserInfo = StorageUserInfo;  //全局  获取缓存全部信息
 new Vue({
   el: '#app',
   router,

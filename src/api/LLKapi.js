@@ -46,3 +46,11 @@ export function verifiCode(data) { //验证 验证码
     data
   })
 }
+export function getTableApi(data) { //订单推送
+  return request({
+    url: `/tlOrderPush/select`,
+    method: 'post',
+    data
+  })
+}
+

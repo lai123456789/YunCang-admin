@@ -6,10 +6,10 @@
             <el-row type="flex" class="row-bg" justify="space-around">
               <el-col :span="8">
                 <div class="grid-content bg-purple">
-                  <div>上午好，某某某</div>
+                  <div>上午好，{{user.userName}}</div>
                   <div class="">
                     <div style="line-height: 30px">欢迎登入商家客户端</div>
-                    <div class="textTime">上次登录时间：2020年09月23日 10:28:00</div>
+                    <div class="textTime">上次登录时间：{{user.loginTime}}</div>
                   </div>
                 </div>
               </el-col>
@@ -21,7 +21,7 @@
                 <div class="grid-content bg-purple-light">
                   <div style="text-align: left">钱包余额</div>
                   <div class="textDiv">
-                    <div>¥3456.09</div>
+                    <div>¥{{user.surplus}}</div>
                     <div @click="addPayMoney()" style="margin: 0 20px;">
                       <el-button type="primary" size="mini">确定充值</el-button>
                     </div>
@@ -35,7 +35,7 @@
                     历史账单
                   </div>
                   <div class="textDiv">
-                    <div>¥3456.09</div>
+                    <div>¥{{user.bill}}</div>
                     <div style="margin-left: 10px">
                       <el-button type="warning" size="mini">历史账单</el-button>
                     </div>
@@ -49,61 +49,66 @@
 
         <div class="two row-bg">
           <div><i class="el-icon-time" />营销统计</div>
-          <el-row type="flex" justify="space-between">
-            <el-col :span="8">
+          <el-row>
+            <el-col :span="12">
               <div class="grid-content bg-purple yingxiao">
                 <div class="yingxiao1">
                   <img src="../../assets/images/mainBottom.png" alt="">
+                  <div>
+                    <div>8970</div>
+                    <div>今日销售额</div>
+                  </div>
                 </div>
-                <div class="yingxiao2">
-                  <div>8970</div>
-                  <div>今日销售额</div>
-                </div>
-                <div class="yingxiao3">
+                <div class="yingxiao3" style="border-right: 2px solid #EEE;padding-right: 40px;">
                   <div>昨日：8790</div>
                   <div>前日：8790</div>
                 </div>
               </div>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <div class="grid-content bg-purple yingxiao">
-                <div class="yingxiao1">
+                <div class="yingxiao1" style="margin-left: 20px;">
                   <img src="../../assets/images/mainBottom.png" alt="">
+                  <div>
+                    <div>8970</div>
+                    <div>今日订单数</div>
+                  </div>
                 </div>
-                <div class="yingxiao2">
-                  <div>8970</div>
-                  <div>今日销售额</div>
-                </div>
-                <div class="yingxiao3">
+                <div class="yingxiao3" style="padding-right: 40px;">
                   <div>昨日：8790</div>
                   <div>前日：8790</div>
                 </div>
               </div>
             </el-col>
-            <el-col :span="8">
+
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <div class="grid-content bg-purple yingxiao">
                 <div class="yingxiao1">
                   <img src="../../assets/images/mainBottom.png" alt="">
+                  <div>
+                    <div>8970</div>
+                    <div>历史妥投率</div>
+                  </div>
                 </div>
-                <div class="yingxiao2">
-                  <div>8970</div>
-                  <div>今日销售额</div>
-                </div>
-                <div class="yingxiao3">
+
+                <div class="yingxiao3"  style="border-right: 2px solid #EEE;padding-right: 40px;">
                   <div>昨日：8790</div>
                   <div>前日：8790</div>
                 </div>
               </div>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <div class="grid-content bg-purple yingxiao">
-                <div class="yingxiao1">
+                <div class="yingxiao1" style="margin-left: 20px;">
                   <img src="../../assets/images/mainBottom.png" alt="">
+                  <div>
+                    <div>8970</div>
+                    <div>今日退件数</div>
+                  </div>
                 </div>
-                <div class="yingxiao2">
-                  <div>8970</div>
-                  <div>今日销售额</div>
-                </div>
+
                 <div class="yingxiao3">
                   <div>昨日：8790</div>
                   <div>前日：8790</div>
@@ -116,12 +121,12 @@
           <el-row type="flex" justify="space-between">
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <div id="myChartLeft" :style="{width: '400px', height: '300px'}"></div>
+                <div id="myChartLeft" :style="{width: '400px', height: '300px',marginTop: '20px'}"></div>
               </div>
             </el-col>
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <div id="myChart" :style="{width: '400px', height: '300px'}"></div>
+                <div id="myChart" :style="{width: '400px', height: '300px',marginTop: '20px'}"></div>
               </div>
             </el-col>
           </el-row>
@@ -145,21 +150,21 @@
               :data="tableData"
               style="width: 100%">
               <el-table-column
-                prop="date"
+                prop="headPic"
                 label="产品图"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="sku"
                 label="SKU"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="num"
                 label="总销量">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="price"
                 label="销售额">
               </el-table-column>
               <el-table-column
@@ -178,7 +183,7 @@
           <div class="bg-index">
             <div class="bg-title" style="margin-bottom:20px">
               <i class="el-icon-time" />
-              <span>最新公告{{StorageUserId}}</span>
+              <span>最新公告</span>
             </div>
             <div v-for="(item,index) in AnnouncementNew">{{item.title}}</div>
           </div>
@@ -190,9 +195,11 @@
               <i class="el-icon-time" />
               <span>使用教程&常见问题</span>
             </div>
-            <div>虚拟仓教程</div>
-            <div>海外仓教程</div>
-            <div>常见问题</div>
+            <div class="index" style="margin-top: 20px">
+              <div v-for="(item,index) in tutorial" style="line-height: 20px">
+                {{item.title}}
+              </div>
+            </div>
           </div>
 
         </div>
@@ -216,6 +223,7 @@
     // 引入提示框和title组件
     require('echarts/lib/component/tooltip')
     require('echarts/lib/component/title')
+    require("echarts/lib/component/legend")
 import { mapGetters } from 'vuex'
     import { ceshi,payMoney } from '../../api/LLKapi'
     import { getNewAnnouncementApi,getStatementOrderApi } from '../../api/index'
@@ -230,28 +238,14 @@ export default {
         return {
             money:"",
             msg: 'Welcome to Your Vue.js App',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
-            AnnouncementNew:[]
+            tableData: [], //销量排行表格
+            AnnouncementNew:[],
+            StatementOrderList:[], //订单图表数据echart
+            user:{}, //用户信息
+            tutorial:[], //使用教程
         }
     },
     mounted() {
-        this.drawLine();
         this.getList();
         this.getNewAnnouncement();//最新5条公告
         this.getStatementOrder();
@@ -265,7 +259,13 @@ export default {
           })
       },
         getStatementOrder(){
+          let t = this
             getStatementOrderApi({userId:this.$StorageUserId}).then(res => {  //获取首页报表
+                t.StatementOrderList = res.data
+                t.tableData = res.data.product
+                t.user = res.data.user
+                t.tutorial = res.data.tutorial
+                t.drawLine();
 
             }).catch(error => {
                 console.log(error)
@@ -293,70 +293,158 @@ export default {
           // })
       },
         drawLine() {
+           let StatementOrderList = this.StatementOrderList
+            let orderCount = StatementOrderList.orderCount //平台订单数
+            let orderMoney= StatementOrderList.orderMoney //平台销售额
+            //平台订单数
+            let orderCountDate = [];//日期
+            let userLazadaCount = [];// Lazada
+            let userShoppeeCount = [];// Shoppee
+            let userCount = []; //总订单
+            let userVirtualCount = []; //虚拟仓订单
+            for(let x in orderCount){
+                orderCountDate.push(orderCount[x].date)
+                userLazadaCount.push(orderCount[x].userLazadaCount)
+                userShoppeeCount.push(orderCount[x].userShoppeeCount)
+                userCount.push(orderCount[x].userCount)
+                userVirtualCount.push(orderCount[x].userVirtualCount)
+            }
+            //平台销售额
+            let orderMoneyDate = [];//日期
+            let userLazadaMoney = [];// Lazada
+            let userShoppeeMoney = [];// Shoppee
+            let userMoney = []; //总订单
+            let userVirtualMoney = []; //虚拟仓订单
+            for(let x in orderCount){
+                orderMoneyDate.push(orderMoney[x].date)
+                userLazadaMoney.push(orderMoney[x].userLazadaMoney)
+                userShoppeeMoney.push(orderMoney[x].userShoppeeMoney)
+                userMoney.push(orderMoney[x].userMoney)
+                userVirtualMoney.push(orderMoney[x].userVirtualMoney)
+            }
             // 基于准备好的dom，初始化echarts实例
-            let myChartLeft = echarts.init(document.getElementById('myChartLeft'))
-            let myChart = echarts.init(document.getElementById('myChart'))
-            let myChartBottomLeft = echarts.init(document.getElementById('myChartBottomLeft'))
-            let myChartBottomRight = echarts.init(document.getElementById('myChartBottomRight'))
+            let myChartLeft = echarts.init(document.getElementById('myChartLeft')) //近期订单数
+            let myChart = echarts.init(document.getElementById('myChart')) //平台订单数对比
+            let myChartBottomLeft = echarts.init(document.getElementById('myChartBottomLeft')) //近期销售额
+            let myChartBottomRight = echarts.init(document.getElementById('myChartBottomRight'))  //平台销售额对比
             // 绘制图表
             myChartLeft.setOption({
                 title: { text: '近期订单数' },
-                tooltip: {},
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['总订单', '虚拟仓']
+                },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: orderCountDate,
+                    boundaryGap: false
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line',
-                    smooth: true
-                }]
+                series: [
+                    {
+                        name: '总订单',
+                        type: 'line',
+                        stack: '总量',
+                        data: userCount
+                    },
+                    {
+                        name: '虚拟仓',
+                        type: 'line',
+                        stack: '总量',
+                        data: userVirtualCount
+                    }
+                ]
             });
             myChart.setOption({
-                title: { text: '平台订单数对比' },
-                tooltip: {},
-                xAxis: {
-                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-            });
-
+                    title: { text: '平台订单数对比' },
+                    color: ["#003366", "#006699"],
+                    legend: {
+                        left:'150'
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        axisTick: {show: false},
+                        data: orderCountDate
+                    },
+                    yAxis: {},
+                    series: [ {
+                        name: 'Lazada',
+                        type: 'bar',
+                        barGap: 0,
+                        data: userLazadaCount
+                    },
+                        {
+                            name: 'shoppee',
+                            type: 'bar',
+                            data: userShoppeeCount
+                        }]
+                });
             myChartBottomLeft.setOption({
                 title: { text: '近期销售额' },
-                tooltip: {},
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['总订单', '虚拟仓']
+                },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: orderMoneyDate,
+                    boundaryGap: false
                 },
-                yAxis: {
-                    type: 'value'
-                },
+                yAxis:  [{
+                        axisLabel:{
+                            show:false //是否显示刻度
+                        },
+                        axisLine:{
+                            show:true //线段加深
+                        },
+                        axisTick:{
+                            show:false //是否显示刻度小标线
+                        },
+                        splitLine:{
+                            show:true //分割线
+                        }
+                    }],
                 series: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    name: '总订单',
+                    data: userMoney,
                     type: 'line',
-                    smooth: true
+                    stack: '总量'
+                },{
+                    name: '虚拟仓',
+                    data: userVirtualMoney,
+                    type: 'line',
+                    stack: '总量'
                 }]
             });
             myChartBottomRight.setOption({
                 title: { text: '平台销售额对比' },
-                tooltip: {},
-                xAxis: {
-                    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                color: ["#4cabce", "#e5323e"],
+                legend: {
+                    left:'150'
+                },
+                xAxis:  {
+                    type: 'category',
+                    axisTick: {show: false},
+                    data: orderMoneyDate
                 },
                 yAxis: {},
-                series: [{
-                    name: '销量',
+                series: [ {
+                    name: 'Lazada',
                     type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
+                    barGap: 0,
+                    data: userLazadaMoney
+                },
+                    {
+                        name: 'shoppee',
+                        type: 'bar',
+                        data: userShoppeeMoney
+                    }]
             });
 
 
@@ -465,27 +553,30 @@ export default {
   }
   .yingxiao{
     display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
+    justify-content: space-between;
+    margin: 10px 20px 10px 0;
     .yingxiao1{
+      display: flex;
       img{
         width: 50px;
         height: 50px;
         border-radius: 50%;
       }
-    }
-    .yingxiao2{
-      margin-left: -30px;
-      div:nth-child(1){
-        font-size: 22px;
-        font-weight: bold;
+      div{
+        margin-left: 5px;
+        div:nth-child(1){
+          font-size: 22px;
+          font-weight: bold;
+        }
+        div:nth-child(2){
+          color: #999999;
+          font-size: 14px;
+        }
       }
-      div:nth-child(2){
-        color: #999999;
-        font-size: 14px;
-      }
+
     }
     .yingxiao3{
+
       div{
         font-size: 14px;
         color: #666666;
