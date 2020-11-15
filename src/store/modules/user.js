@@ -52,6 +52,7 @@ const actions = {
         commit('SET_userId', data.user.id)
 
         window.localStorage.setItem('userId',data.user.id) //设置缓存userId
+        window.localStorage.setItem('userInfo',JSON.stringify(data.user)) //设置所有缓存信息
 
         resolve()
       }).catch(error => {

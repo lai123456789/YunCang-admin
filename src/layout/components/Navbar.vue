@@ -32,7 +32,7 @@
         <div class="avatar-wrapper">
 <!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
           <span>用户名：</span>
-          <span style="margin-right: 20px;">{{getusername}}</span>
+          <span style="margin-right: 20px;">{{username}}</span>
           <i class="el-icon-user"></i>
           <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
@@ -56,7 +56,8 @@ import Hamburger from '@/components/Hamburger'
 export default {
     data(){
         return {
-            getUserNumber: this.$store.state.user.userNumber
+            getUserNumber: this.$store.state.user.userNumber,
+            username : this.$StorageUserInfo.userName, //
         }
     },
   components: {
@@ -64,9 +65,9 @@ export default {
     Hamburger
   },
   computed: {
-      getusername(){
-        return this.$store.state.user.name
-      },
+      // getusername(){ //获取vuex用户名
+      //   return this.$store.state.user.name
+      // },
     ...mapGetters([
       'sidebar',
       'avatar'

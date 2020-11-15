@@ -106,7 +106,6 @@ export default {
       this.page = 1;
       this.getList();
     },
-
     pageChange(page) {
       this.page = page;
       this.getList();

@@ -1,2 +1,5 @@
 const StorageUserId = localStorage.getItem('userId')
-export default StorageUserId
+const StorageUserInfo = JSON.parse(localStorage.getItem('userInfo'))
+export{
+  StorageUserId,StorageUserInfo
+}
