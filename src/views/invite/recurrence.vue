@@ -134,6 +134,7 @@ export default {
         console.log(res)
         if(res.code==1){
           this.$message.success('申请成功')
+          this.dialogFormVisible=false
         }else{
           this.$message.success(res.msg)
         }
