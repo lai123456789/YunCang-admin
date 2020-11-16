@@ -4,7 +4,9 @@
       <el-container>
           <div class="row-bg">
             <el-row type="flex" class="row-bg" justify="space-around">
-              <el-col :span="8">
+              <el-col :span="8" style="display: flex;align-items: center">
+                <i class="el-icon-picture-outline-round"
+                   style="font-size: 60px;border-radius: 50%;margin-right: 10px"></i>
                 <div class="grid-content bg-purple">
                   <div>上午好，{{user.userName}}</div>
                   <div class="">
@@ -19,7 +21,9 @@
 <!--              </el-col>-->
               <el-col :span="10">
                 <div class="grid-content bg-purple-light">
-                  <div style="text-align: left">钱包余额</div>
+                  <div style="text-align: left">
+                    <i class="el-icon-wallet" style="font-size: 20px;"></i>
+                    钱包余额</div>
                   <div class="textDiv">
                     <div>¥{{user.surplus}}</div>
                     <div @click="addPayMoney()" style="margin: 0 20px;">
@@ -32,6 +36,7 @@
               <el-col :span="6">
                 <div class="grid-content bg-purple-light">
                   <div style="text-align: left;">
+                    <i class="el-icon-tickets" style="font-size: 20px;"></i>
                     历史账单
                   </div>
                   <div class="textDiv">

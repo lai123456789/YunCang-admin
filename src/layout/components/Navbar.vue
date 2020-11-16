@@ -27,10 +27,24 @@
 <!--          </el-dropdown-item>-->
 <!--        </el-dropdown-menu>-->
 <!--      </el-dropdown>-->
-
       <el-dropdown  class="avatar-container">
         <div class="avatar-wrapper">
-<!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+          <div>
+            <i class="el-icon-document" style="font-size: 23px"></i>
+            <i class="el-icon-bell" style="font-size: 23px;margin: 0 20px"></i>
+            <i class="el-icon-s-finance" style="font-size: 23px"></i>
+          </div>
+        </div>
+        <el-dropdown-menu slot="dropdown">
+          <el-tabs v-model="activeName" style="padding: 20px;width: 400px">
+            <el-tab-pane label="公告通知" name="first">公告通知11公告通知11公告通知11公告通知11</el-tab-pane>
+            <el-tab-pane label="系统消息" name="second">系统消息222</el-tab-pane>
+          </el-tabs>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <el-dropdown  class="avatar-container">
+        <div class="avatar-wrapper">
+          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" style="margin: 0 10px">
           <span>用户名：</span>
           <span style="margin-right: 20px;">{{username}}</span>
           <i class="el-icon-user"></i>
@@ -56,6 +70,7 @@ import Hamburger from '@/components/Hamburger'
 export default {
     data(){
         return {
+            activeName:'first',
             getUserNumber: this.$store.state.user.userNumber,
             username : this.$StorageUserInfo.userName, //
         }
@@ -119,7 +134,7 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
-
+    display: flex;
     &:focus {
       outline: none;
     }
