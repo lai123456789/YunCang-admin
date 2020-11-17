@@ -114,7 +114,7 @@
                   </div>
                 </div>
 
-                <div class="yingxiao3">
+                <div class="yingxiao3" style="padding-right: 40px">
                   <div>昨日：8790</div>
                   <div>前日：8790</div>
                 </div>
@@ -187,7 +187,7 @@
         <div class="bg-right-1">
           <div class="bg-index">
             <div class="bg-title" style="margin-bottom:20px">
-              <i class="el-icon-time" />
+              <i class="el-icon-s-order"  style="font-size: 20px"/>
               <span>最新公告</span>
             </div>
             <div v-for="(item,index) in AnnouncementNew">{{item.title}}</div>
@@ -197,8 +197,36 @@
         <div class="bg-right-2">
           <div class="bg-index">
             <div class="bg-title">
-              <i class="el-icon-time" />
+              <i class="el-icon-question" style="font-size: 20px"/>
               <span>使用教程&常见问题</span>
+            </div>
+            <div class="index" style="margin-top: 20px">
+              <div v-for="(item,index) in tutorial" style="line-height: 20px">
+                {{item.title}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bg-right-2">
+          <div class="bg-index">
+            <div class="bg-title">
+              <i class="el-icon-download" style="font-size: 20px"/>
+              <span>附件下载</span>
+            </div>
+            <div class="index" style="margin-top: 20px">
+              <div v-for="(item,index) in tutorial" style="line-height: 20px">
+                {{item.title}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="bg-right-2">
+          <div class="bg-index">
+            <div class="bg-title">
+              <i class="el-icon-price-tag" style="font-size: 20px"/>
+              <span>物流费用报价</span>
             </div>
             <div class="index" style="margin-top: 20px">
               <div v-for="(item,index) in tutorial" style="line-height: 20px">
