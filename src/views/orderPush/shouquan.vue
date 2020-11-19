@@ -3,40 +3,28 @@
     <div class="top">
       <h2>店铺授权</h2>
       <el-card style="margin: 20px 0;height: 600px;">
-        <el-row type="flex" class="row-bg">
-          <el-col :span="6">
-            <div class="grid-content  topButton">
-              <el-button type="primary">添加shopee授权</el-button>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content  topButton">
-              <el-button type="primary">添加Lazada授权</el-button>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content  topButton">
-              <el-button type="danger" class="jiebang"> 解绑店铺 </el-button>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col >
-            <div class="grid-content topTable">
-              <table>
-                <tr>
-                  <td>shopee店铺</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Lazada店铺</td>
-                  <td></td>
-                </tr>
-              </table>
-            </div>
-          </el-col>
+        <div style="margin-bottom: 20px;">
+          <el-button type="primary" round>添加shopee授权</el-button>
+          <el-button type="primary" round>添加Lazada授权</el-button>
+          <el-button type="danger" round class="jiebang"> 解绑店铺</el-button>
+        </div>
+        <el-card style="margin-top: 20px;padding: 32px 8px 16px 24px;">
+          <div style="margin-bottom: 20px">Shopee店铺</div>
+          <div>
+            <el-button type="primary" plain round>elemore</el-button>
+            <el-button type="primary" plain round>let add</el-button>
+            <el-button type="primary" plain round>ceshi12</el-button>
+          </div>
+        </el-card>
+        <el-card style="margin-top: 20px;padding: 32px 8px 16px 24px;">
+          <div style="margin-bottom: 20px">Lazada店铺</div>
+          <div>
+            <el-button type="primary" plain round>Gavied</el-button>
+            <el-button type="info" plain round>thor(授权过期)</el-button>
+            <el-button type="info" plain round>hor(授权过期)</el-button>
+          </div>
+        </el-card>
 
-        </el-row>
       </el-card>
 
     </div>
@@ -44,48 +32,52 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-        activeName: "first",
-        // 上面行内表单绑定的对象
-        formInline: {
-            rid:"",
+    export default {
+        data() {
+            return {
+                activeName: "first",
+                // 上面行内表单绑定的对象
+                formInline: {
+                    rid: "",
+                },
+            }
         },
+        methods: {
+            onSubmit() {
+                this.$message('submit!')
+            },
+            onCancel() {
+                this.$message({
+                    message: 'cancel!',
+                    type: 'warning'
+                })
+            }
+        }
     }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    }
-  }
-}
 </script>
 
 <style lang="scss">
-  .topButton{
-    button:nth-child(1){
+  .topButton {
+    button:nth-child(1) {
       margin-bottom: 10px;
     }
-    .jiebang{
+
+    .jiebang {
       width: 144px;
     }
   }
+
   .topTable {
     table {
       width: 100%;
-      border-collapse:collapse;
-      tr{
-        td:nth-child(1){
+      border-collapse: collapse;
+
+      tr {
+        td:nth-child(1) {
           width: 20%;
         }
-        td{
+
+        td {
           height: 44px;
           text-align: center;
           border: 1px solid #999999;
@@ -94,13 +86,15 @@ export default {
     }
 
   }
-  .el-tabs{
-    .el-tabs__header{
-      .el-tabs__nav-wrap{
-        .is-active{
+
+  .el-tabs {
+    .el-tabs__header {
+      .el-tabs__nav-wrap {
+        .is-active {
           /*color:#E6A23C !important;*/
         }
-        .el-tabs__active-bar{
+
+        .el-tabs__active-bar {
           /*background-color:#E6A23C !important;*/
         }
       }

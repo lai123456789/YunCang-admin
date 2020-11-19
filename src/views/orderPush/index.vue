@@ -38,18 +38,41 @@
         </el-form>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tabList">
+            <div style="padding:20px 0;" v-if="item.name == 'first'">
+              <div>
+                <el-button type="primary" round @click="allOrderDiolog = true">同步全部订单</el-button>
+                <el-button type="primary" round @click="daoruDiolog = true">从表格导入thisshop订单</el-button>
+                <el-button type="success" round>同步指定订单</el-button>
+                <el-button type="success" round>批量生成拣货单</el-button>
+                <span style="margin:0 20px"><i class="el-icon-question"></i>自动发货</span>
+                <el-switch
+                  v-model="value"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
+                </el-switch>
+                <el-button style="margin-left:20px" type="info" round><i class="el-icon-s-fold"></i> 批量申请发货</el-button>
+              </div>
+            </div>
+            <div style="padding:20px 0;" v-if="item.name == 'second'">
+              <div>
+                <el-button type="primary" round>批量打印</el-button>
+                <el-button type="primary" round>批量生成拣货单</el-button>
+              </div>
+            </div>
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <!-- 下面卡片 -->
               <el-card class="box-card box-card1">
                 <el-table style="width: 100%;margin-bottom: 20px" :data="tableForm">
-
-
+                  <el-table-column v-if="item.name == 'first' || item.name == 'second'"
+                                   type="selection"
+                                   width="55">
+                  </el-table-column>
                   <el-table-column prop="platformName" label="平台"></el-table-column>
                   <el-table-column prop="shopName" label="店铺名"></el-table-column>
-                  <el-table-column  label="订单商品信息" width="300px">
-                    <template  slot-scope="scope">
+                  <el-table-column label="订单商品信息" width="300px">
+                    <template slot-scope="scope">
                       <div v-for="item in scope.row.products" :key="item.id" style="display: flex;align-items: center">
-                        <div ><img :src="item.headPic" alt="" style="width: 80px;height: 80px;"></div>
+                        <div><img :src="item.headPic" alt="" style="width: 80px;height: 80px;"></div>
                         <div style="margin-left: 10px">
                           <el-tooltip class="item" effect="dark" :content="item.name" placement="top">
                             <p style="line-height: 15px;white-space: nowrap;overflow: hidden;
@@ -73,9 +96,9 @@
                   <el-table-column prop="status" label="物流状态"></el-table-column>
                   <el-table-column prop="channel" label="渠道"></el-table-column>
                   <el-table-column label="面单">
-                    <template  slot-scope="scope">
+                    <template slot-scope="scope">
                       <a :href="scope.row.faceOrder" style="color: #333333" target="_blank"
-                      v-if="scope.row.faceOrder">查看面单</a>
+                         v-if="scope.row.faceOrder">查看面单</a>
                     </template>
                   </el-table-column>
                   <el-table-column prop="anticipatedProfit" label="预期利润"></el-table-column>
@@ -97,6 +120,38 @@
           </el-tab-pane>
         </el-tabs>
       </el-card>
+
+<!--      同步全部订单-->
+      <el-dialog
+        title="提示"
+        :visible.sync="allOrderDiolog"
+        width="30%">
+        <span>同步全部订单成功！</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="allOrderDiolog = false">取 消</el-button>
+    <el-button type="primary" @click="allOrderDiolog = false">确 定</el-button>
+  </span>
+      </el-dialog>
+<!--      从表格导入thisshop订单-->
+      <el-dialog
+        title="从表格导入thisshop订单"
+        :visible.sync="daoruDiolog"
+        width="30%">
+        <div>
+          <el-row>
+            <el-col :span="8">
+              *excel表格
+            </el-col>
+            <el-col :span="8">
+              <input style="height: 50px" type="file" autocomplete="off" accept=".xls, .xlsx" placeholder="请选择要导入的Excel表格" class="el-input__inner">
+            </el-col>
+          </el-row>
+        </div>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="daoruDiolog = false">取 消</el-button>
+    <el-button type="primary" @click="daoruDiolog = false">确定导入</el-button>
+  </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -108,9 +163,12 @@
 
         data() {
             return {
+                allOrderDiolog: false,
+                daoruDiolog:false,
+                value: true,
                 tabList: [
                     {name: 'first', title: '未申请发货', type: 1},
-                    {name: 'second', title: '待菜鸟仓处理', type: 2},
+                    {name: 'second', title: '待仓库处理', type: 2},
                     {name: 'third', title: '已完成订单', type: 3},
                     {name: 'fourth', title: '全部订单', type: 4},
                 ],
@@ -121,8 +179,8 @@
                     transportNum: "",
                     shopName: ""
                 },
-                apiParam:{
-                    type:1,
+                apiParam: {
+                    type: 1,
                     page: 1,
                     limit: 10,
                     count: 0,
@@ -139,7 +197,7 @@
         methods: {
             getTable() {
                 let params = {
-                    type:  this.apiParam.type,
+                    type: this.apiParam.type,
                     page: this.apiParam.page,
                     limit: this.apiParam.limit,
                     userId: this.$StorageUserId,
@@ -170,13 +228,13 @@
                 this.apiParam.count = 0
                 this.getTable()
             },
-            search(){
+            search() {
                 this.apiParam.search = this.formInline
                 this.getTable()
 
 
             },
-            reset(){
+            reset() {
 
             },
             onSubmit() {

@@ -302,7 +302,6 @@
           <div class="row">使用教程</div>
           <div class="all-left userteach">
             <el-tabs :tab-position="tabPosition">
-
               <el-tab-pane name="first">
                 <span slot="label"><i class="el-icon-s-flag"></i> 海外仓教程</span>
                 <div class="waiTeach">
@@ -379,27 +378,22 @@
         <el-tab-pane name="eight">
           <span slot="label"><i class="el-icon-ice-cream-square"></i> 物流费用报价</span>
           <div class="row">物流费用报价</div>
-          <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item>
-              <el-input placeholder="请输入运单号或订单号" v-model="formInline.rid" style="width:200px;"
-                        suffix-icon="el-icon-search"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary">搜索</el-button>
-            </el-form-item>
-            <!-- 下面卡片 -->
-            <el-card class="box-card  box-card1">
-              <el-table border style="width: 100%;" :data="tableForm">
-                <el-table-column prop="end_time" label="退件到仓时间"></el-table-column>
-                <el-table-column prop="shop_name" label="平台和店铺"></el-table-column>
-                <el-table-column prop="order_text" label="订单详情"></el-table-column>
-                <el-table-column prop="Waybill_Num" label="原运单号"></el-table-column>
-                <el-table-column prop="New_Num" label="新运单号"></el-table-column>
-                <el-table-column prop="money" label="收费"></el-table-column>
-                <el-table-column prop="send_time" label="发货时间"></el-table-column>
-              </el-table>
-            </el-card>
-          </el-form>
+          <el-tabs :tab-position="tabPosition">
+            <el-tab-pane name="first">
+              <span slot="label"><i class="el-icon-s-flag"></i> 泰国海外仓报价</span>
+              <div class="waiTeach" style="height: 800px">
+                <embed  style="width: 100%;height: 100%"
+                       src="https://ezsale.oss-ap-southeast-1.aliyuncs.com/%E7%B3%BB%E7%BB%9F%E6%95%99%E7%A8%8B/pdf%20%E7%89%88/EZSALE%E6%B5%B7%E5%A4%96%E4%BB%93%E6%8A%A5%E4%BB%B7%E8%A1%A8.pdf"
+                       class="pdf" internalinstanceid="10">
+              </div>
+            </el-tab-pane>
+            <el-tab-pane name="second">
+              <span slot="label"><i class="el-icon-s-flag"></i> 泰国虚拟仓报价</span>
+              <div class="row">
+
+              </div>
+            </el-tab-pane>
+          </el-tabs>
 
         </el-tab-pane>
       </el-tabs>
