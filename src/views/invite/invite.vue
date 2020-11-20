@@ -116,6 +116,8 @@
           <!-- 提交按钮  -->
           <el-form-item>
             <el-button type="primary" @click="submit">申请提交</el-button>
+            <el-button>重置</el-button>
+            <el-button>返回</el-button>
           </el-form-item>
         </el-form>
       </div>

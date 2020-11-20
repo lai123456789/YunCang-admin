@@ -13,19 +13,51 @@
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="danger" @click="search">批量申请下架销毁</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+              <el-form-item class="f-right">
+                <el-button
+                  type="primary"
+                  @click="doDel"
+                >批量申请下架销毁</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -103,7 +135,18 @@
                   prop="charge"
                   label="收费"
                 ></el-table-column>
-                <el-table-column label="操作"></el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="send(scope.row)"
+                    >发货</el-button>
+                    <el-button
+                      type="text"
+                      @click="doDel(scope.row)"
+                    >销毁</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -119,23 +162,52 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="待销毁"
+          label="待仓库下架销毁"
           name=2
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -143,7 +215,6 @@
                 style="width: 100%;"
                 :data="tableForm"
               >
-                </el-table-column>
                 <el-table-column
                   prop="platformName"
                   label="平台"
@@ -206,7 +277,15 @@
                   prop="charge"
                   label="收费"
                 ></el-table-column>
-                <el-table-column label="操作"></el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+
+                    <el-button
+                      type="text"
+                      @click="doDel(scope.row)"
+                    >销毁</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -222,23 +301,52 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="已销毁"
+          label="已下架销毁"
           name=3
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -246,11 +354,6 @@
                 style="width: 100%;"
                 :data="tableForm"
               >
-                <el-table-column
-                  type="selection"
-                  width="55"
-                >
-                </el-table-column>
                 <el-table-column
                   prop="platformName"
                   label="平台"
@@ -332,23 +435,52 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="待出货"
+          label="待仓库二次发货"
           name=4
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -356,11 +488,6 @@
                 style="width: 100%;"
                 :data="tableForm"
               >
-                <el-table-column
-                  type="selection"
-                  width="55"
-                >
-                </el-table-column>
                 <el-table-column
                   prop="platformName"
                   label="平台"
@@ -426,8 +553,19 @@
                 <el-table-column
                   prop="remark"
                   label="详情"
-                ></el-table-column>
-                <el-table-column label="操作"></el-table-column>
+                >
+                  <template slot-scope="scope">
+                    <a @click="dialogVisible = true">查看</a>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="send(scope.row)"
+                    >发货</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -443,23 +581,52 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="已出货"
+          label="已二次出货"
           name=5
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -467,11 +634,6 @@
                 style="width: 100%;"
                 :data="tableForm"
               >
-                <el-table-column
-                  type="selection"
-                  width="55"
-                >
-                </el-table-column>
                 <el-table-column
                   prop="platformName"
                   label="平台"
@@ -514,6 +676,10 @@
                   label="原订单号"
                 ></el-table-column>
                 <el-table-column
+                  prop="orderNum"
+                  label="新订单号"
+                ></el-table-column>
+                <el-table-column
                   prop="transportNum"
                   label="原运单号"
                 ></el-table-column>
@@ -524,17 +690,17 @@
                 </el-table-column>
                 <el-table-column
                   prop="finishTime"
-                  label="退件到仓时间"
+                  label="申请二次发货时间"
                 ></el-table-column>
                 <el-table-column
-                  prop="storagePlace"
-                  label="退件存储位置"
+                  prop=""
+                  label="二次发货时间"
                 ></el-table-column>
                 <el-table-column
                   prop="charge"
                   label="收费"
                 ></el-table-column>
-                <el-table-column label="操作"></el-table-column>
+                <el-table-column label="物流状态"></el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -549,8 +715,161 @@
             </el-card>
           </el-form>
         </el-tab-pane>
+        <el-tab-pane
+          label="退件服务设置中心"
+          name=6
+        >
+          <el-form
+            :inline="true"
+            class="demo-form-inline"
+          >
+            <el-card style="margin: 20px 0;">
+              <el-card style="margin-top: 20px;padding: 32px 8px 16px 24px;">
+                <div style="margin-bottom: 20px">Shopee店铺</div>
+                <div>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                </div>
+              </el-card>
+              <el-card style="margin-top: 20px;padding: 32px 8px 16px 24px;">
+                <div style="margin-bottom: 20px">Lazada店铺</div>
+                <div>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    round
+                    @click="close"
+                  >Gavied</el-button>
+                </div>
+              </el-card>
+
+            </el-card>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
     </el-card>
+    <el-dialog
+      title="订单详情"
+      :visible.sync="dialogVisible"
+      width="50%"
+      :before-close="handleClose"
+    >
+      <div class="flex">
+        <div class="flex flex-1 dialog-box">
+          <div class="flex-1">
+            <p>平台订单号</p>
+            <p>平台运单号</p>
+            <p>平台名称</p>
+            <p>店铺名称</p>
+            <p>订单状态</p>
+            <p>物流状态</p>
+            <p>买家下单时间</p>
+            <p>订单创建时间</p>
+            <p>预期利润（￥）</p>
+          </div>
+          <div class="flex-2">
+            <p>340165438066223</p>
+            <p>KERDO0008903669</p>
+            <p>lazada</p>
+            <p>Advil</p>
+            <p>待创建（虚拟仓）</p>
+            <p>/</p>
+            <p>2020-11-20 14:02:24</p>
+            <p>2020-11-20 14:02:24</p>
+            <p>0</p>
+          </div>
+        </div>
+        <div class="flex-1  dialog-right">
+          <h2>订单商品信息</h2>
+          <div class="clearfix">
+            <div class="f-left img-box">
+              <img
+                src="@/assets/images/mainBottom.png"
+                alt=""
+              >
+            </div>
+            <div class="text">
+              <div class="textMain row-ellipsis">การ์ตูน คนรัก เคส Huawei FreeBuds 3</div>
+              <div class="textMain">SKU:A0170-（B）-FreeBuds 3</div>
+              <div class="clearfix textMain">
+                <span class="f-left">单价：฿146</span>
+                <span class="f-right">数量：1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -560,11 +879,12 @@ export default {
     return {
       activeName: 0,
       // 上面行内表单绑定的对象
-      keyword:'',
+      keyword: "",
       tableForm: [],
       page: 1,
       limit: 10,
-      count: 0
+      count: 0,
+      dialogVisible: false
     };
   },
   created() {
@@ -574,11 +894,14 @@ export default {
     handleClick(tab, event) {
       console.log(tab);
       console.log(event);
-      this.keyword='';
+      this.keyword = "";
+      this.page = 1;
+      this.limit = 10;
+      this.count = 0;
       this.pageInfo();
     },
-    search(){
-      this.pageInfo(this.keyword)
+    search() {
+      this.pageInfo(this.keyword);
     },
     sizeChanged(limit) {
       this.limit = limit;
@@ -592,13 +915,13 @@ export default {
     },
     //获取分页
     pageInfo(keyword) {
-      this.tableForm=[]
+      this.tableForm = [];
       let params = {
         page: this.page,
         limit: this.limit,
         type: this.activeName,
         userId: this.$StorageUserId,
-        search:keyword
+        search: keyword
       };
       pageInfo(params).then(res => {
         console.log(res);
@@ -607,6 +930,36 @@ export default {
           this.count = res.count;
         }
       });
+    },
+    send(item) {
+      //弹出确认框
+      this.$confirm("请问是否发货？")
+        .then(() => {
+          this.$message.success("发货成功");
+        })
+        .catch(() => {
+          this.$message("发货失败");
+        });
+    },
+    doDel(item) {
+      //弹出确认框
+      this.$confirm("请问是否销毁？")
+        .then(() => {
+          this.$message.success("销毁成功");
+        })
+        .catch(() => {
+          this.$message("销毁失败");
+        });
+    },
+    close() {
+      //弹出确认框
+      this.$confirm("此操作将关闭仓库退件仓权限,是否关闭?")
+        .then(() => {
+          this.$message.success("关闭成功");
+        })
+        .catch(() => {
+          this.$message("关闭失败");
+        });
     }
   }
 };
@@ -669,5 +1022,13 @@ export default {
 .el-pagination {
   text-align: right;
   margin-top: 16px;
+}
+.dialog-box {
+  background-color: #f7f8fa;
+  padding: 24px;
+  border-radius: 8px;
+}
+.dialog-right {
+  padding: 24px;
 }
 </style>

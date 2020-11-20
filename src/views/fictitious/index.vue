@@ -6,24 +6,55 @@
         @tab-click="handleClick"
       >
         <el-tab-pane
-          label="待创建"
+          label="待创建订单"
           name=0
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-              <el-button type="primary">创建订单</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+              <el-form-item class="f-right">
+                <el-button type="primary" @click="add">创建订单</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -99,8 +130,19 @@
                 <el-table-column
                   prop=""
                   label="详情"
-                ></el-table-column>
-                <el-table-column label="操作"></el-table-column>
+                >
+                  <template slot-scope="scope">
+                    <a @click="dialogVisible = true">查看</a>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="doDel(scope.row)"
+                    >回滚</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -116,23 +158,62 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="待处理"
+          label="待处理订单"
           name=2
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="国内物流单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入国内物流单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  style="width:200px;"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -212,7 +293,9 @@
                 <el-table-column
                   prop=""
                   label="详情"
-                ></el-table-column>
+                ><template slot-scope="scope">
+                    <a @click="dialogVisible = true">查看</a>
+                  </template></el-table-column>
                 <el-table-column label="操作"></el-table-column>
               </el-table>
               <el-pagination
@@ -229,26 +312,61 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane
-          label="已完成"
+          label="已完成订单"
           name=3
         >
           <el-form
             :inline="true"
             class="demo-form-inline"
           >
-            <el-form-item>
-              <el-input
-                v-model="keyword"
-                style="width:200px;"
-                suffix-icon="el-icon-search"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search">搜索</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary">导出表格</el-button>
-            </el-form-item>
+            <div class="flex clearfix">
+              <el-form-item
+                class="flex-1"
+                label="平台订单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  placeholder="请输入平台订单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="平台运单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  placeholder="请输入平台运单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="国内物流单号"
+              >
+                <el-input
+                  v-model="keyword"
+                  placeholder="请输入国内物流单号"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                class="flex-1"
+                label="店铺名称"
+              >
+                <el-input
+                  v-model="keyword"
+                  placeholder="请输入店铺名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item class="flex-1">
+                <el-button
+                  type="primary"
+                  @click="search"
+                >搜索</el-button>
+                <el-button>重置</el-button>
+              </el-form-item>
+              <el-form-item class="f-right">
+                <el-button type="primary">导出表格</el-button>
+              </el-form-item>
+            </div>
             <!-- 下面卡片 -->
             <el-card class="box-card box-card1">
               <el-table
@@ -337,24 +455,26 @@
                   prop="switchOrderStatus"
                   label="状态"
                 >
-                <template slot-scope="scope">
-                  <span v-if="scope.row.orderStatus === 1">虚拟仓创建</span>
-                  <span v-if="scope.row.orderStatus === 2">虚拟仓处理</span>
-                  <span v-if="scope.row.orderStatus === 3">中国仓出货已完成</span>
-                  <span v-if="scope.row.orderStatus === 4">退件仓存储</span>
-                  <span v-if="scope.row.orderStatus === 5">退件仓待二次发货</span>
-                  <span v-if="scope.row.orderStatus === 6">退件仓二次发货</span>
-                  <span v-if="scope.row.orderStatus === 7">退件仓待销毁</span>
-                  <span v-if="scope.row.orderStatus === 8">退件仓销毁</span>
-                  <span v-if="scope.row.orderStatus === 9">退件仓出货</span>
-                  <span v-if="scope.row.orderStatus === 10">泰国扫描</span>
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.orderStatus === 1">虚拟仓创建</span>
+                    <span v-if="scope.row.orderStatus === 2">虚拟仓处理</span>
+                    <span v-if="scope.row.orderStatus === 3">中国仓出货已完成</span>
+                    <span v-if="scope.row.orderStatus === 4">退件仓存储</span>
+                    <span v-if="scope.row.orderStatus === 5">退件仓待二次发货</span>
+                    <span v-if="scope.row.orderStatus === 6">退件仓二次发货</span>
+                    <span v-if="scope.row.orderStatus === 7">退件仓待销毁</span>
+                    <span v-if="scope.row.orderStatus === 8">退件仓销毁</span>
+                    <span v-if="scope.row.orderStatus === 9">退件仓出货</span>
+                    <span v-if="scope.row.orderStatus === 10">泰国扫描</span>
 
-                </template>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop=""
                   label="详情"
-                ></el-table-column>
+                ><template slot-scope="scope">
+                    <a @click="dialogVisible = true">查看</a>
+                  </template></el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -371,6 +491,58 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
+    <el-dialog
+      title="订单详情"
+      :visible.sync="dialogVisible"
+      width="50%"
+      :before-close="handleClose"
+    >
+      <div class="flex">
+        <div class="flex flex-1 dialog-box">
+          <div class="flex-1">
+            <p>平台订单号</p>
+            <p>平台运单号</p>
+            <p>平台名称</p>
+            <p>店铺名称</p>
+            <p>订单状态</p>
+            <p>物流状态</p>
+            <p>买家下单时间</p>
+            <p>订单创建时间</p>
+            <p>预期利润（￥）</p>
+          </div>
+          <div class="flex-2">
+            <p>340165438066223</p>
+            <p>KERDO0008903669</p>
+            <p>lazada</p>
+            <p>Advil</p>
+            <p>待创建（虚拟仓）</p>
+            <p>/</p>
+            <p>2020-11-20 14:02:24</p>
+            <p>2020-11-20 14:02:24</p>
+            <p>0</p>
+          </div>
+        </div>
+        <div class="flex-1  dialog-right">
+          <h2>订单商品信息</h2>
+          <div class="clearfix">
+            <div class="f-left img-box">
+              <img
+                src="@/assets/images/mainBottom.png"
+                alt=""
+              >
+            </div>
+            <div class="text">
+              <div class="textMain row-ellipsis">การ์ตูน คนรัก เคส Huawei FreeBuds 3</div>
+              <div class="textMain">SKU:A0170-（B）-FreeBuds 3</div>
+              <div class="clearfix textMain">
+                <span class="f-left">单价：฿146</span>
+                <span class="f-right">数量：1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -380,11 +552,12 @@ export default {
     return {
       activeName: 0,
       // 上面行内表单绑定的对象
-      keyword:'',
+      keyword: "",
       tableForm: [],
       page: 1,
       limit: 10,
-      count: 0
+      count: 0,
+      dialogVisible: false
     };
   },
   created() {
@@ -394,11 +567,14 @@ export default {
     handleClick(tab, event) {
       console.log(tab);
       console.log(event);
-      this.keyword='';
+      this.keyword = "";
+      this.page = 1;
+      this.limit = 10;
+      this.count = 0;
       this.pageInfo();
     },
-    search(){
-      this.pageInfo(this.keyword)
+    search() {
+      this.pageInfo(this.keyword);
     },
     sizeChanged(limit) {
       this.limit = limit;
@@ -412,13 +588,13 @@ export default {
     },
     //获取分页
     pageInfo(keyword) {
-      this.tableForm=[]
+      this.tableForm = [];
       let params = {
         page: this.page,
         limit: this.limit,
         type: this.activeName,
         userId: this.$StorageUserId,
-        search:keyword
+        search: keyword
       };
       pageInfo(params).then(res => {
         console.log(res);
@@ -427,6 +603,19 @@ export default {
           this.count = res.count;
         }
       });
+    },
+    doDel(item) {
+      //弹出确认框
+      this.$confirm("请问是否需要回滚？")
+        .then(() => {
+          this.$message.success("回滚成功");
+        })
+        .catch(() => {
+          this.$message("回滚失败");
+        });
+    },
+    add(){
+      this.$router.push({path: '/addfictitious/index'});
     }
   }
 };
@@ -489,5 +678,13 @@ export default {
 .el-pagination {
   text-align: right;
   margin-top: 16px;
+}
+.dialog-box {
+  background-color: #f7f8fa;
+  padding: 24px;
+  border-radius: 8px;
+}
+.dialog-right {
+  padding: 24px;
 }
 </style>

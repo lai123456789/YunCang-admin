@@ -111,6 +111,17 @@ export const constantRoutes = [
     // ]
   },
   {
+    path: '/addfictitious',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'addfictitious',
+        component: () => import('../views/fictitious/add.vue'),
+      }
+    ]
+  },
+  {
     path: '/returning',
     component: Layout,
     children: [
