@@ -340,7 +340,7 @@
               </el-form-item>
               <el-form-item
                 class="flex-1"
-                label="国内物流单号"
+                label="国内物流号"
               >
                 <el-input
                   v-model="keyword"
